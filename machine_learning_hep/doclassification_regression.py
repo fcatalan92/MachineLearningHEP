@@ -135,7 +135,7 @@ def doclassification_regression(run_config, data, model_config, case, binmin, bi
         df_sig = filterdataframe_singlevar(df_sig, var_binning, binmin, binmax)
         df_bkg = filterdataframe_singlevar(df_bkg, var_binning, binmin, binmax)
 
-        df_sig = filter_df_cand(df_sig, data[case], 'mc_signal')
+        df_sig = filter_df_cand(df_sig, data[case], 'mc_signal_prompt')
 
         df_mc = pd.read_pickle(filemc)
         df_data = pd.read_pickle(filedata)
@@ -144,7 +144,7 @@ def doclassification_regression(run_config, data, model_config, case, binmin, bi
 
         _, df_ml_test, df_sig_train, df_bkg_train, _, _, \
         x_train, y_train, x_test, y_test = \
-            create_mlsamples(df_sig, df_bkg, 'mc_signal', data[case], sel_bkg, rnd_shuffle,
+            create_mlsamples(df_sig, df_bkg, 'mc_signal_prompt', data[case], sel_bkg, rnd_shuffle,
                              var_signal, var_training, nevt_sig, nevt_bkg, test_frac, rnd_splt)
 
     if docorrelation == 1:

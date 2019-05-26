@@ -16,6 +16,7 @@
 main script for doing data processing, machine learning and analysis
 """
 
+import logging
 import os
 import yaml
 from machine_learning_hep.doskimming import conversion, merging, merging_period, skim
@@ -23,8 +24,12 @@ from machine_learning_hep.doclassification_regression import doclassification_re
 from machine_learning_hep.doanalysis import doanalysis
 from machine_learning_hep.extractmasshisto import extractmasshisto
 from machine_learning_hep.efficiencyan import analysis_eff
+from machine_learning_hep.logger import get_logger
 
 def do_entire_analysis(): # pylint: disable=too-many-locals, too-many-statements, too-many-branches
+
+    logger = get_logger()
+    logger.setLevel(logging.DEBUG)
 
     with open("default_complete.yaml", 'r') as run_config:
         data_config = yaml.load(run_config)

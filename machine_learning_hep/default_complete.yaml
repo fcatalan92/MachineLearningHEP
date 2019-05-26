@@ -1,11 +1,11 @@
-case: DstoKKpiPbPbCen010
+case: DstoKKpiPbPbCen3050
 conversion:
   mc: 
     activate: false #never change this without thinking!
     nmaxconvers: 300
     maxfiles: -1
   data:
-    activate: true  #never change this without thinking!
+    activate: false  #never change this without thinking!
     nmaxconvers: 300
     maxfiles: 1000
 skimming: 
@@ -14,7 +14,7 @@ skimming:
     nmaxconvers: 300
     maxfiles: -1
   data:
-    activate: true
+    activate: false
     nmaxconvers: 300
     maxfiles: 1000
 merging: 
@@ -23,16 +23,17 @@ merging:
     rnd_seed: 12
     maxfilestomerge: -1
   data:
-    activate: true
+    activate: false
     rnd_seed: 12
     maxfilestomerge: 200
 mergingperiods: 
   mc:
     activate: false
   data:
-    activate: true
+    activate: false
+    
 ml_study:   
-  activate: false
+  activate: true
   applytodatamc: true
   binmin: [2] 
   binmax: [3]
@@ -42,7 +43,7 @@ ml_study:
   docrossvalidation: false
   dogridsearch: false
   doimportance: true
-  dolearningcurve: true
+  dolearningcurve: false
   dopca: false
   dopltregressionxy: false
   dosignifopt: true
@@ -54,11 +55,11 @@ ml_study:
   mlsubtype: HFmeson
   mltype: BinaryClassification
   ncores: -1
-  nevt_bkg: 5000
-  nevt_sig: 5000
+  nevt_bkg: 100000
+  nevt_sig: 18000
   nkfolds: 5
-  rnd_shuffle: 12
-  rnd_splt: 12
+  rnd_shuffle: 42
+  rnd_splt: 42
   test_frac: 0.2
   usefileserver: false
 
@@ -100,7 +101,7 @@ analysis:
   sgnfunc: [kGaus]
   bkgfunc: [kExpo]
   masspeak: 1.9685
-  massmin: [1.72]
+  massmin: [1.78]
   massmax: [2.10]
   rebin: [2]
   includesecpeak: [1]
