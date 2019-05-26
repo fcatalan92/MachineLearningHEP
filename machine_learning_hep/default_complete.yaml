@@ -33,7 +33,7 @@ mergingperiods:
     activate: false
     
 ml_study:   
-  activate: true
+  activate: false
   applytodatamc: true
   binmin: [2] 
   binmax: [3]
@@ -66,14 +66,14 @@ ml_study:
 analysis:
   data:
     nmaxchunks: 300
-    maxfiles: 1000
+    maxfiles: -1
     std:
       usecustom: false
       doapply: false
       domass: false
     ml:
       doapply: false
-      domass: false
+      domass: true
   mc:
     nmaxchunks: 300
     maxfiles: -1
@@ -84,19 +84,19 @@ analysis:
       doeffhist: false
     ml:
       doapply: false
-      domass: false    
-      doeffhist: false
+      domass: true    
+      doeffhist: true
   modelname: xgboost
   modelbinmin: [2]
   modelbinmax: [3]
-  probcut: [0.4]
-  probcutoptimal: [0.80]
-  models: [xgboost_classifiernevt_sig300003_nevt_bkg300003_BinaryClassificationLctopK0sPbPbCen3050_dfselection_pt_cand_4.0_6.0.sav] 
+  probcut: [0.6]
+  probcutoptimal: [0.98]
+  models: [xgboost_classifiernevt_sig18000_nevt_bkg100000_BinaryClassificationDstoKKpiPbPbCen3050_dfselection_pt_cand_2.0_3.0.sav] 
   analysisbinmin: [2]
   analysisbinmax: [3]
   modeltouse: [0]
-  test_df_list: [xxxx]
-  doinvmassspectra: false
+  test_df_list: [testsample_nevt_sig18000_nevt_bkg100000_BinaryClassificationDstoKKpiPbPbCen3050_dfselection_pt_cand_2.0_3.0_mldecision.pkl]
+  doinvmassspectra: true
   uselikelihood: 0
   sgnfunc: [kGaus]
   bkgfunc: [kExpo]

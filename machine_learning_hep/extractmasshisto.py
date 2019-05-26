@@ -63,17 +63,18 @@ def extractmasshisto(data_config, data, case, useml, mcordata, index):
         array_inv_mass_sel = df.inv_mass.values
         namehisto = "h_invmass%d_%d_std_usecust%d" % (imin, imax, (int)(usecustomsel))
         if useml == 1:
-            namehisto = "h_invmass%d_%d_ml_prob%.2f" % (imin, imax, prob_cut)
+            namehisto = "h_invmass%d_%d" % (imin, imax)
         h_invmass = TH1F(namehisto, "", num_bins, mass_fit_lim[0], mass_fit_lim[1])
         fill_hist(h_invmass, array_inv_mass_sel)
         histomassall.append(h_invmass)
         c = TCanvas('c%d' % index, '', 500, 500)
         h_invmass.Draw()
+        namehisto = namehisto + "_%.4f" % (probcutoptimal[0])
         c.SaveAs(outputdir + "/" + namehisto+".pdf")
         index = index + 1
     namefile = "masshisto%s_useml%s_usecustom%d.root" % (case, useml, (int)(usecustomsel))
     if useml == 1:
-        namefile = "masshisto%s_useml%s_%.2f.root" % (case, useml, \
+        namefile = "masshisto%s_useml%s_%.4f.root" % (case, useml, \
                                                   probcutoptimal[0])
     myfile = TFile.Open(outputdir + "/" + namefile, "recreate")
     myfile.cd()
