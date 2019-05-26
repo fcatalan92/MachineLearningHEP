@@ -281,13 +281,13 @@ DstoKKpiPbPbCen3050:
            /data2/HeavyFlavour/PbPb_MC_3050/24-05-2019/15_20190520-1349/pickleDstoKKpiTot_presel,
            /data2/HeavyFlavour/PbPb_MC_3050/24-05-2019/16_20190520-1647/pickleDstoKKpiTot_presel]
   variables:
-    var_all: [inv_mass, pt_cand, cos_PiDs, cos_p, cos_p_xy, imp_par_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3,
+    var_all: [inv_mass, pt_cand, cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3,
               max_norm_d0d0exp, nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]    
     var_evt:
       data: [is_ev_rej, run_number, ev_id, n_tracks, centrality, n_tracklets, V0Amult, z_vtx_reco ]
       mc: [is_ev_rej, run_number, ev_id, n_tracks, centrality, n_tracklets, V0Amult, z_vtx_reco, z_vtx_gen]
     var_gen: [y_cand, pt_cand, cand_type, run_number, ev_id]
-    var_training: [cos_PiDs, cos_p, cos_p_xy, imp_par_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3,
+    var_training: [cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3,
                    max_norm_d0d0exp, nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]
     var_boundaries: [d_len, max_norm_d0d0exp]
     var_correlation:
