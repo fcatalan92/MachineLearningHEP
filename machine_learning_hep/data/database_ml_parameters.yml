@@ -247,8 +247,8 @@ DstoKKpiPbPbCen3050:
            /home/fcatalan/plots3050/plotsanalysis_mc_LHC19c3a_r_3050_10_presel,
            /home/fcatalan/plots3050/plotsanalysis_mc_LHC19d4a_q_3050_13_presel,
            /home/fcatalan/plots3050/plotsanalysis_mc_LHC19d4a_r_3050_14_presel]
-    mlplot: /home/fcatalan/mlplot3050
-    mlout: /home/fcatalan/mlout3050
+    mlplot: /home/fcatalan/mlplot3050/balanced_training
+    mlout: /home/fcatalan/mlout3050/balanced_training
     pkl_out:
       data: [/data2/HeavyFlavour/PbPb_data_3050/21-05-2019/8_20190515-1018/pickleDstoKKpi_presel, 
              /data2/HeavyFlavour/PbPb_data_3050/23-05-2019/17_20190521-1741/pickleDstoKKpi_presel]

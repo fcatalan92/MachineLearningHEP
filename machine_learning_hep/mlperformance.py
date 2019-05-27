@@ -210,7 +210,7 @@ def precision_recall(names_, classifiers_, suffix_, x_train, y_train, cvgen, fol
         plt.xlabel('False Positive Rate or (1 - Specifity)', fontsize=20)
         plt.ylabel('True Positive Rate or (Sensitivity)', fontsize=20)
         plt.title('Receiver Operating Characteristic', fontsize=20)
-        plt.plot(fpr, tpr, alpha=0.3, label='ROC %s (AUC = %0.2f)' %
+        plt.plot(fpr, tpr, alpha=0.3, label='ROC %s (AUC = %0.4f)' %
                  (names_[i-1], roc_auc), linewidth=4.0)
         plt.legend(loc="lower center", prop={'size': 18})
         i += 1

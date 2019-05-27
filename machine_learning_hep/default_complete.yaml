@@ -33,7 +33,7 @@ mergingperiods:
     activate: false
     
 ml_study:   
-  activate: false
+  activate: true
   applytodatamc: true
   binmin: [2] 
   binmax: [3]
@@ -55,7 +55,7 @@ ml_study:
   mlsubtype: HFmeson
   mltype: BinaryClassification
   ncores: -1
-  nevt_bkg: 100000
+  nevt_bkg: 18000 #100000
   nevt_sig: 18000
   nkfolds: 5
   rnd_shuffle: 42
@@ -73,7 +73,7 @@ analysis:
       domass: false
     ml:
       doapply: false
-      domass: true
+      domass: false
   mc:
     nmaxchunks: 300
     maxfiles: -1
@@ -84,8 +84,8 @@ analysis:
       doeffhist: false
     ml:
       doapply: false
-      domass: true    
-      doeffhist: true
+      domass: false   
+      doeffhist: false
   modelname: xgboost
   modelbinmin: [2]
   modelbinmax: [3]
@@ -96,7 +96,7 @@ analysis:
   analysisbinmax: [3]
   modeltouse: [0]
   test_df_list: [testsample_nevt_sig18000_nevt_bkg100000_BinaryClassificationDstoKKpiPbPbCen3050_dfselection_pt_cand_2.0_3.0_mldecision.pkl]
-  doinvmassspectra: true
+  doinvmassspectra: false
   uselikelihood: 0
   sgnfunc: [kGaus]
   bkgfunc: [kExpo]
