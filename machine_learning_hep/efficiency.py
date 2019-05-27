@@ -49,12 +49,18 @@ def calc_eff(df_to_sel, sel_opt, main_dict, name, num_steps, do_std=False, \
         eff_err_array: array of uncertainties
         x_axis: array of threshold values
     """
+    logger = get_logger()
     df_sig = filter_df_cand(df_to_sel, main_dict, sel_opt)
     ns_left = int(num_steps / 10) - 1
     ns_right = num_steps - ns_left
     x_axis_left = np.linspace(0., 0.49, ns_left)
     x_axis_right = np.linspace(0.5, 1.0, ns_right)
     x_axis = np.concatenate((x_axis_left, x_axis_right))
+    if df_sig.empty:
+        logger.error("In division denominator is empty")
+        eff_array = [0] * num_steps
+        eff_err_array = [0] * num_steps
+        return eff_array, eff_err_array, x_axis
     num_tot_cand = len(df_sig)
     eff_array = []
     eff_err_array = []
@@ -107,8 +113,12 @@ def calc_eff_fixed(df_to_sel, sel_opt, main_dict, name, thr_value, do_std=False,
         eff: efficiency
         eff_err: uncertainty
     """
+    logger = get_logger()
     df_sig = filter_df_cand(df_to_sel, main_dict, sel_opt)
     num_tot_cand = len(df_sig)
+    if df_sig.empty:
+        logger.error("In division denominator is empty")
+        return 0., 0.
 
     if do_std:
         if std_cuts_map is None:
@@ -154,7 +164,7 @@ def calc_eff_acc(df_mc_gen, df_mc_reco, sel_opt, main_dict):
     df_mc_reco_sel = filter_df_cand(df_mc_reco, main_dict, sel_opt)
     if df_mc_gen_sel.empty:
         logger.error("In division denominator is empty")
-        return 0.
+        return 0., 0.
     num_tot_cand = len(df_mc_gen_sel)
     eff_acc = len(df_mc_reco_sel) / num_tot_cand
     eff_acc_err = np.sqrt(eff_acc * (1 - eff_acc) / num_tot_cand)
