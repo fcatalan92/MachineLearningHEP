@@ -55,7 +55,7 @@ ml_study:
   mlsubtype: HFmeson
   mltype: BinaryClassification
   ncores: -1
-  nevt_bkg: 18000 #100000
+  nevt_bkg: 100000
   nevt_sig: 18000
   nkfolds: 5
   rnd_shuffle: 42
