@@ -82,12 +82,12 @@ DstoKKpiPbPbCen010:
 
   output_folders:
     plotsanalysis:
-      data: [plots010/plotsanalysis_data_LHC18r_010_7_18_presel,
-             plots010/plotsanalysis_data_LHC18q_010_7_18_presel]
-      mc: [plots010/plotsanalysis_mc_LHC19c3a_q_010_9_presel,
-           plots010/plotsanalysis_mc_LHC19c3a_r_010_10_presel,
-           plots010/plotsanalysis_mc_LHC19d4a_q_010_13_presel, 
-           plots010/plotsanalysis_mc_LHC19d4a_r_010_14_presel]
+      data: [/home/fcatalan/plots010/plotsanalysis_data_LHC18r_010_7_18_presel,
+             /home/fcatalan/plots010/plotsanalysis_data_LHC18q_010_7_18_presel]
+      mc: [/home/fcatalan/plots010/plotsanalysis_mc_LHC19c3a_q_010_9_presel,
+           /home/fcatalan/plots010/plotsanalysis_mc_LHC19c3a_r_010_10_presel,
+           /home/fcatalan/plots010/plotsanalysis_mc_LHC19d4a_q_010_13_presel, 
+           /home/fcatalan/plots010/plotsanalysis_mc_LHC19d4a_r_010_14_presel]
     mlplot: /home/fcatalan/mlplot010
     mlout: /home/fcatalan/mlout010
     pkl_out:
