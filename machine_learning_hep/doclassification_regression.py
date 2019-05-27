@@ -137,6 +137,9 @@ def doclassification_regression(run_config, data, model_config, case, binmin, bi
 
         df_sig = filter_df_cand(df_sig, data[case], 'mc_signal_prompt')
 
+        df_sig = df_sig.query('nsigComb_Pi_0<100. & nsigComb_Pi_1<100. & nsigComb_Pi_2<100. & nsigComb_K_0<100. & nsigComb_K_1<100. & nsigComb_K_2<100.')
+        df_bkg = df_bkg.query('nsigComb_Pi_0<100. & nsigComb_Pi_1<100. & nsigComb_Pi_2<100. & nsigComb_K_0<100. & nsigComb_K_1<100. & nsigComb_K_2<100.')
+
         df_mc = pd.read_pickle(filemc)
         df_data = pd.read_pickle(filedata)
         df_data = filterdataframe_singlevar(df_data, var_binning, binmin, binmax)

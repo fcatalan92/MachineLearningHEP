@@ -247,8 +247,8 @@ DstoKKpiPbPbCen3050:
            /home/fcatalan/plots3050/plotsanalysis_mc_LHC19c3a_r_3050_10_presel,
            /home/fcatalan/plots3050/plotsanalysis_mc_LHC19d4a_q_3050_13_presel,
            /home/fcatalan/plots3050/plotsanalysis_mc_LHC19d4a_r_3050_14_presel]
-    mlplot: /home/fcatalan/mlplot3050/TPConly_training
-    mlout: /home/fcatalan/mlout3050/TPConly_training
+    mlplot: /home/fcatalan/mlplot3050/TestCorr
+    mlout: /home/fcatalan/mlout3050/TestCorr
     pkl_out:
       data: [/data2/HeavyFlavour/PbPb_data_3050/21-05-2019/8_20190515-1018/pickleDstoKKpi_presel, 
              /data2/HeavyFlavour/PbPb_data_3050/23-05-2019/17_20190521-1741/pickleDstoKKpi_presel]
@@ -282,14 +282,14 @@ DstoKKpiPbPbCen3050:
            /data2/HeavyFlavour/PbPb_MC_3050/24-05-2019/16_20190520-1647/pickleDstoKKpiTot_presel]
   variables:
     var_all: [inv_mass, pt_cand, cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3,
-              max_norm_d0d0exp, nsigTPC_Pi_0, nsigTPC_K_0, nsigTPC_Pi_1, nsigTPC_K_1, nsigTPC_Pi_2, nsigTPC_K_2]
-               #nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]    
+              max_norm_d0d0exp, nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]
+              #nsigTPC_Pi_0, nsigTPC_K_0, nsigTPC_Pi_1, nsigTPC_K_1, nsigTPC_Pi_2, nsigTPC_K_2
     var_evt:
       data: [is_ev_rej, run_number, ev_id, n_tracks, centrality, n_tracklets, V0Amult, z_vtx_reco ]
       mc: [is_ev_rej, run_number, ev_id, n_tracks, centrality, n_tracklets, V0Amult, z_vtx_reco, z_vtx_gen]
     var_gen: [y_cand, pt_cand, cand_type, run_number, ev_id]
     var_training: [cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3,
-                   max_norm_d0d0exp, nsigTPC_Pi_0, nsigTPC_K_0, nsigTPC_Pi_1, nsigTPC_K_1, nsigTPC_Pi_2, nsigTPC_K_2]
+                   max_norm_d0d0exp, nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]
     var_boundaries: [d_len, max_norm_d0d0exp]
     var_correlation:
       - [pt_cand]
