@@ -1,4 +1,4 @@
-case: DstoKKpiPbPbCen3050
+case: DstoKKpiPbPbCen010
 conversion:
   mc: 
     activate: false #never change this without thinking!
@@ -34,29 +34,29 @@ mergingperiods:
     
 ml_study:   
   activate: true
-  applytodatamc: false
+  applytodatamc: true
   binmin: [2] 
   binmax: [3]
-  doROC: false
+  doROC: true
   doboundary: false
   docorrelation: true
   docrossvalidation: false
   dogridsearch: false
-  doimportance: false
+  doimportance: true
   dolearningcurve: false
   dopca: false
   dopltregressionxy: false
-  dosignifopt: false
-  doefficiency: false
+  dosignifopt: true
+  doefficiency: true
   dostandard: false
-  dotesting: false
-  dotraining: false
+  dotesting: true
+  dotraining: true
   loadsampleoption: true
   mlsubtype: HFmeson
   mltype: BinaryClassification
   ncores: -1
-  nevt_bkg: 100000
-  nevt_sig: 18000
+  nevt_bkg: 50000
+  nevt_sig: 10000
   nkfolds: 5
   rnd_shuffle: 42
   rnd_splt: 42

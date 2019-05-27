@@ -71,8 +71,8 @@ DstoKKpiPbPbCen010:
   inputs:
     data:
       production: [LHC18r, LHC18q]
-      unmerged_tree_dir: [/data2/HeavyFlavour/PbPb_data_010/23-05-2019/18_20190521-1742/unmerged,
-                          /data2/HeavyFlavour/PbPb_data_010/21-05-2019/7_20190515-1018/unmerged]
+      unmerged_tree_dir: [/data/HeavyFlavour/PbPb_data_010/23-05-2019/18_20190521-1742/unmerged,
+                          /data/HeavyFlavour/PbPb_data_010/21-05-2019/7_20190515-1018/unmerged]
     mc:
       production: [LHC19c3a_q, LHC19c3a_r, LHC19d4a_q, LHC19d4a_r]
       unmerged_tree_dir: [/data2/HeavyFlavour/PbPb_MC_010/24-05-2019/9_20190515-1540//unmerged,
@@ -88,58 +88,53 @@ DstoKKpiPbPbCen010:
            plots010/plotsanalysis_mc_LHC19c3a_r_010_10_presel,
            plots010/plotsanalysis_mc_LHC19d4a_q_010_13_presel, 
            plots010/plotsanalysis_mc_LHC19d4a_r_010_14_presel]
-    mlplot: mlplot010
-    mlout: mlout010
+    mlplot: /home/fcatalan/mlplot010
+    mlout: /home/fcatalan/mlout010
     pkl_out:
-      data: [/data2/HeavyFlavour/PbPb_data_010/23-05-2019/18_20190521-1742/pickleDstoKKpi_presel, 
-             /data2/HeavyFlavour/PbPb_data_010/21-05-2019/7_20190515-1018/pickleDstoKKpi_presel]
+      data: [/data/HeavyFlavour/PbPb_data_010/23-05-2019/18_20190521-1742/pickleDstoKKpi_presel, 
+             /data/HeavyFlavour/PbPb_data_010/21-05-2019/7_20190515-1018/pickleDstoKKpi_presel]
       mc: [/data2/HeavyFlavour/PbPb_MC_010/24-05-2019/9_20190515-1540/pickleDstoKKpi_presel,
            /data2/HeavyFlavour/PbPb_MC_010/24-05-2019/10_20190515-1505/pickleDstoKKpi_presel,
            /data2/HeavyFlavour/PbPb_MC_010/24-05-2019/13_20190520-1349/pickleDstoKKpi_presel,
            /data2/HeavyFlavour/PbPb_MC_010/24-05-2019/14_20190520-1349/pickleDstoKKpi_presel]
     pkl_skimmed:
-      data: [/data2/HeavyFlavour/PbPb_data_010/23-05-2019/18_20190521-1742/pickleDstoKKpiskimmed_presel, 
-             /data2/HeavyFlavour/PbPb_data_010/21-05-2019/7_20190515-1018/pickleDstoKKpiskimmed_presel]
+      data: [/data/HeavyFlavour/PbPb_data_010/23-05-2019/18_20190521-1742/pickleDstoKKpiskimmed_presel, 
+             /data/HeavyFlavour/PbPb_data_010/21-05-2019/7_20190515-1018/pickleDstoKKpiskimmed_presel]
       mc: [/data2/HeavyFlavour/PbPb_MC_010/24-05-2019/9_20190515-1540/pickleDstoKKpiskimmed_presel,
            /data2/HeavyFlavour/PbPb_MC_010/24-05-2019/10_20190515-1505/pickleDstoKKpiskimmed_presel,
            /data2/HeavyFlavour/PbPb_MC_010/24-05-2019/13_20190520-1349/pickleDstoKKpiskimmed_presel,
            /data2/HeavyFlavour/PbPb_MC_010/24-05-2019/14_20190520-1349/pickleDstoKKpiskimmed_presel]
     pkl_merged:
-      data: [/data2/HeavyFlavour/PbPb_data_010/23-05-2019/18_20190521-1742/pickleDstoKKpiskimmedMerged_presel,
-             /data2/HeavyFlavour/PbPb_data_010/21-05-2019/7_20190515-1018/pickleDstoKKpiskimmedMerged_presel]
+      data: [/data/HeavyFlavour/PbPb_data_010/23-05-2019/18_20190521-1742/pickleDstoKKpiskimmedMerged_presel,
+             /data/HeavyFlavour/PbPb_data_010/21-05-2019/7_20190515-1018/pickleDstoKKpiskimmedMerged_presel]
       mc: [/data2/HeavyFlavour/PbPb_MC_010/24-05-2019/9_20190515-1540/pickleDstoKKpiskimeedMerged_presel,
            /data2/HeavyFlavour/PbPb_MC_010/24-05-2019/10_20190515-1505/pickleDstoKKpiskimeedMerged_presel,
            /data2/HeavyFlavour/PbPb_MC_010/24-05-2019/13_20190520-1349/pickleDstoKKpiskimeedMerged_presel,
            /data2/HeavyFlavour/PbPb_MC_010/24-05-2019/14_20190520-1349/pickleDstoKKpiskimeedMerged_presel]
     pkl_merged_all:
-      data: /data2/HeavyFlavour/PbPb_data_010/23-05-2019/pickleDstoKKpiskimmedMerged_7_18_presel
+      data: /data/HeavyFlavour/PbPb_data_010/23-05-2019/pickleDstoKKpiskimmedMerged_7_18_presel
       mc: /data2/HeavyFlavour/PbPb_MC_010/24-05-2019/pickleDstoKKpiskimmedMerged_9_10_13_14_presel
     pkl_final:
-      data: [/data2/HeavyFlavour/PbPb_data_010/23-05-2019/18_20190521-1742/pickleDstoKKpiTot_presel,
-             /data2/HeavyFlavour/PbPb_data_010/21-05-2019/7_20190515-1018/pickleDstoKKpiTot_presel]
+      data: [/data/HeavyFlavour/PbPb_data_010/23-05-2019/18_20190521-1742/pickleDstoKKpiTot_presel,
+             /data/HeavyFlavour/PbPb_data_010/21-05-2019/7_20190515-1018/pickleDstoKKpiTot_presel]
       mc: [/data2/HeavyFlavour/PbPb_MC_010/24-05-2019/9_20190515-1540/pickleDstoKKpiTot_presel,
            /data2/HeavyFlavour/PbPb_MC_010/24-05-2019/10_20190515-1505/pickleDstoKKpiTot_presel,
            /data2/HeavyFlavour/PbPb_MC_010/24-05-2019/13_20190520-1349/pickleDstoKKpiTot_presel,
            /data2/HeavyFlavour/PbPb_MC_010/24-05-2019/14_20190520-1349/pickleDstoKKpiTot_presel]
   variables:
-    var_all: [d_len, d_len_xy, norm_dl_xy, cos_p, cos_p_xy, imp_par_xy, dca, sig_vert, 
-             delta_mass_KK, cos_PiDs, cos_PiKPhi_3, pt_prong0, pt_prong1, pt_prong2, imp_par_prong0, 
-             imp_par_prong1, imp_par_prong2, max_norm_d0d0exp, inv_mass, pt_cand, cand_type, y_cand, 
-             eta_prong0, eta_prong1, eta_prong2, run_number, ev_id, nsigTPC_Pi_0, nsigTPC_K_0, nsigTOF_Pi_0, nsigTOF_K_0, 
-             nsigTPC_Pi_1, nsigTPC_K_1, nsigTOF_Pi_1, nsigTOF_K_1, nsigTPC_Pi_2, nsigTPC_K_2, nsigTOF_Pi_2, nsigTOF_K_2, 
-             nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]    
+    var_all: [inv_mass, pt_cand, cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3,
+              max_norm_d0d0exp, nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]
+              #nsigTPC_Pi_0, nsigTPC_K_0, nsigTPC_Pi_1, nsigTPC_K_1, nsigTPC_Pi_2, nsigTPC_K_2
     var_evt:
       data: [is_ev_rej, run_number, ev_id, n_tracks, centrality, n_tracklets, V0Amult, z_vtx_reco ]
       mc: [is_ev_rej, run_number, ev_id, n_tracks, centrality, n_tracklets, V0Amult, z_vtx_reco, z_vtx_gen]
     var_gen: [y_cand, pt_cand, cand_type, run_number, ev_id]
-    var_training: [d_len, d_len_xy, norm_dl_xy, cos_p, cos_p_xy, imp_par_xy, dca, sig_vert, delta_mass_KK, 
-                  cos_PiDs, cos_PiKPhi_3, pt_prong0, pt_prong1, pt_prong2, imp_par_prong0, imp_par_prong1, 
-                  imp_par_prong2, max_norm_d0d0exp, nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, 
-                  nsigComb_K_1, nsigComb_K_2]
+    var_training: [cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3,
+                   max_norm_d0d0exp, nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]
     var_boundaries: [d_len, max_norm_d0d0exp]
     var_correlation:
-      - [pt_cand, d_len_xy, sig_vert, pt_cand, pt_cand, norm_dl_xy, cos_PiDs, cos_p_xy, cos_p_xy]
-      - [d_len_xy, sig_vert, delta_mass_KK, delta_mass_KK, sig_vert, d_len_xy, cos_PiKPhi_3, sig_vert, pt_cand]
+      - [pt_cand]
+      - [d_len_xy]
     var_others: [inv_mass, pt_cand]
     var_signal: signal
     var_binning: pt_cand
@@ -163,12 +158,12 @@ DstoKKpiPbPbCen010:
     Taa: 23260 # 23260 [b^-1] in 0-10% Pb-Pb, 3917 [b^-1] in 30-50% Pb-Pb, 1 for pp
     BR: 2.27e-2 # branching ratio of the decay
     f_prompt: 0.9 # estimated fraction of prompt candidates
-    bkg_data_fraction: 0.1 # fraction of real data used in the estimation
+    bkg_data_fraction: 0.05 # fraction of real data used in the estimation
     num_steps: 111 # number of steps used in efficiency and signif. estimation 
     save_fit: True # save bkg fits with the various cuts on ML output
 
   efficiency:
-    split_prompt_FD: True # True to split prompt and feed-down candidates
+    split_prompt_FD: False # True to split prompt and feed-down candidates
     num_steps: 111 # number of steps used in efficiency estimation
 
 DstoKKpiPbPbCen3050:
@@ -247,8 +242,8 @@ DstoKKpiPbPbCen3050:
            /home/fcatalan/plots3050/plotsanalysis_mc_LHC19c3a_r_3050_10_presel,
            /home/fcatalan/plots3050/plotsanalysis_mc_LHC19d4a_q_3050_13_presel,
            /home/fcatalan/plots3050/plotsanalysis_mc_LHC19d4a_r_3050_14_presel]
-    mlplot: /home/fcatalan/mlplot3050/TestCorr
-    mlout: /home/fcatalan/mlout3050/TestCorr
+    mlplot: /home/fcatalan/mlplot3050
+    mlout: /home/fcatalan/mlout3050
     pkl_out:
       data: [/data2/HeavyFlavour/PbPb_data_3050/21-05-2019/8_20190515-1018/pickleDstoKKpi_presel, 
              /data2/HeavyFlavour/PbPb_data_3050/23-05-2019/17_20190521-1741/pickleDstoKKpi_presel]
