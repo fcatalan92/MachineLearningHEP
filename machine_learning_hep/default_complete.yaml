@@ -1,4 +1,4 @@
-case: DstoKKpiPbPbCen010
+case: DstoKKpiPbPbCen3050
 conversion:
   mc: 
     activate: false #never change this without thinking!
@@ -72,7 +72,7 @@ analysis:
       doapply: false
       domass: false
     ml:
-      doapply: true
+      doapply: false
       domass: true
   mc:
     nmaxchunks: 300
@@ -83,21 +83,21 @@ analysis:
       domass: false
       doeffhist: false
     ml:
-      doapply: true
+      doapply: false
       domass: true   
       doeffhist: true
   modelname: xgboost
   modelbinmin: [2]
   modelbinmax: [3]
   probcut: [0.8]
-  probcutoptimal: [0.98]
-  models: [xgboost_classifiernevt_sig10000_nevt_bkg50000_BinaryClassificationDstoKKpiPbPbCen010_dfselection_pt_cand_2.0_3.0.sav]
-          #[xgboost_classifiernevt_sig18000_nevt_bkg100000_BinaryClassificationDstoKKpiPbPbCen3050_dfselection_pt_cand_2.0_3.0.sav] 
+  probcutoptimal: [0.99]
+  models: [xgboost_classifiernevt_sig18000_nevt_bkg100000_BinaryClassificationDstoKKpiPbPbCen3050_dfselection_pt_cand_2.0_3.0.sav] 
+          #[xgboost_classifiernevt_sig10000_nevt_bkg50000_BinaryClassificationDstoKKpiPbPbCen010_dfselection_pt_cand_2.0_3.0.sav]     
   analysisbinmin: [2]
   analysisbinmax: [3]
   modeltouse: [0]
-  test_df_list: [testsample_nevt_sig10000_nevt_bkg50000_BinaryClassificationDstoKKpiPbPbCen010_dfselection_pt_cand_2.0_3.0_mldecision.pkl]
-                #[testsample_nevt_sig18000_nevt_bkg100000_BinaryClassificationDstoKKpiPbPbCen3050_dfselection_pt_cand_2.0_3.0_mldecision.pkl]
+  test_df_list:  [testsample_nevt_sig18000_nevt_bkg100000_BinaryClassificationDstoKKpiPbPbCen3050_dfselection_pt_cand_2.0_3.0_mldecision.pkl]
+                  #[testsample_nevt_sig10000_nevt_bkg50000_BinaryClassificationDstoKKpiPbPbCen010_dfselection_pt_cand_2.0_3.0_mldecision.pkl]
   doinvmassspectra: true
   uselikelihood: 0
   sgnfunc: [kGaus]
