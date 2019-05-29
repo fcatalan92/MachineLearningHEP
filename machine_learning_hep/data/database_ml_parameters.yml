@@ -151,15 +151,15 @@ DstoKKpiPbPbCen010:
 
   signif_opt: 
     sel_event: is_ev_rej==0
-    filename_fonll: 'data/fonll/fo_PbPb_d0meson_5TeV_y0p5_wRaa_ds_010_min.csv' # file with FONLL predictions, corrected with Raa for PbPb
+    filename_fonll: 'data/fonll/fo_pp_d0meson_5TeV_y0p5.csv' # file with FONLL predictions, corrected with Raa for PbPb, 'data/fonll/fo_PbPb_d0meson_5TeV_y0p5_wRaa_ds_010_min.csv'
     fonll_pred: 'max' # edge of the FONLL prediction
-    FF: 0.1281 # fragmentation fraction
+    FF: 0.092 # fragmentation fraction #0.1281 
     sigma_MB: 1  # Minimum Bias cross section (pp) 50.87e-3 [b], 1 for Pb-Pb
     Taa: 23260 # 23260 [b^-1] in 0-10% Pb-Pb, 3917 [b^-1] in 30-50% Pb-Pb, 1 for pp
     BR: 2.27e-2 # branching ratio of the decay
     f_prompt: 0.9 # estimated fraction of prompt candidates
-    bkg_data_fraction: 0.05 # fraction of real data used in the estimation
-    num_steps: 111 # number of steps used in efficiency and signif. estimation 
+    bkg_data_fraction: 0.2 # fraction of real data used in the estimation
+    num_steps: 551 # number of steps used in efficiency and signif. estimation 
     save_fit: True # save bkg fits with the various cuts on ML output
 
   efficiency:
@@ -305,15 +305,15 @@ DstoKKpiPbPbCen3050:
 
   signif_opt: 
     sel_event: is_ev_rej==0
-    filename_fonll: 'data/fonll/fo_PbPb_d0meson_5TeV_y0p5_wRaa_ds_3050_min.csv' # file with FONLL predictions, corrected with Raa for PbPb
+    filename_fonll: 'data/fonll/fo_pp_d0meson_5TeV_y0p5.csv' # file with FONLL predictions, corrected with Raa for PbPb 'data/fonll/fo_PbPb_d0meson_5TeV_y0p5_wRaa_ds_3050_min.csv'
     fonll_pred: 'max' # edge of the FONLL prediction
-    FF: 0.1281 # fragmentation fraction
+    FF: 0.092 # fragmentation fraction #0.1281 
     sigma_MB: 1  # Minimum Bias cross section (pp) 50.87e-3 [b], 1 for Pb-Pb
     Taa: 3917 # 23260 [b^-1] in 0-10% Pb-Pb, 3917 [b^-1] in 30-50% Pb-Pb, 1 for pp
     BR: 2.27e-2 # branching ratio of the decay
     f_prompt: 0.9 # estimated fraction of prompt candidates
-    bkg_data_fraction: 0.2 # fraction of real data used in the estimation
-    num_steps: 111 # number of steps used in efficiency and signif. estimation 
+    bkg_data_fraction: 0.4 # fraction of real data used in the estimation
+    num_steps: 551 # number of steps used in efficiency and signif. estimation 
     save_fit: True # save bkg fits with the various cuts on ML output
 
   efficiency:

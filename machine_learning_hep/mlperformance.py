@@ -16,6 +16,7 @@
 Methods to: model performance evaluation
 """
 from io import BytesIO
+import pickle
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -216,6 +217,9 @@ def precision_recall(names_, classifiers_, suffix_, x_train, y_train, cvgen, fol
         i += 1
     plotname = folder+'/ROCcurve%s.png' % (suffix_)
     plt.savefig(plotname)
+    plotname = plotname.replace('png', 'pickle')
+    with open(plotname, 'wb') as fid:
+        pickle.dump(figure2, fid)
     img_roc = BytesIO()
     plt.savefig(img_roc, format='png')
     img_roc.seek(0)

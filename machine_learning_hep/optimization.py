@@ -16,6 +16,7 @@
 Methods to: study expected significance
 """
 from math import sqrt
+import pickle
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -47,7 +48,7 @@ def calc_bkg(df_bkg, name, num_steps, fit_region, bin_width, sig_region, save_fi
         out_file = TFile(f'{out_dir}/bkg_fits_{name}.root', 'recreate')
         out_file.cd()
 
-    logger.debug("To fit the bkg a pol2 function is used")
+    logger.debug("To fit the bkg a expo function is used")
     for thr in x_axis:
         bkg = 0.
         bkg_err = 0.
@@ -58,11 +59,11 @@ def calc_bkg(df_bkg, name, num_steps, fit_region, bin_width, sig_region, save_fi
         if len(sel_mass_array) > 5:
             for mass_value in np.nditer(sel_mass_array):
                 hmass.Fill(mass_value)
-            fit = hmass.Fit('pol2', 'Q', '', fit_region[0], fit_region[1])
+            fit = hmass.Fit('expo', 'Q', '', fit_region[0], fit_region[1])
             if save_fit:
                 hmass.Write()
             if int(fit) == 0:
-                fit_func = hmass.GetFunction('pol2')
+                fit_func = hmass.GetFunction('expo')
                 bkg = fit_func.Integral(sig_region[0], sig_region[1]) / bin_width
                 bkg_err = fit_func.IntegralError(sig_region[0], sig_region[1]) / bin_width
                 del fit_func
@@ -260,3 +261,5 @@ def study_signif(case, names, bin_lim, file_mc_gen, file_data_evt_ml, file_data_
     plt.figure(fig_signif.number)
     plt.legend(loc="lower left", prop={'size': 18})
     plt.savefig(f'{plot_dir}/Significance_{suffix}.png')
+    with open(f'{plot_dir}/Significance_{suffix}.pickle', 'wb') as fid:
+        pickle.dump(fig_signif, fid)
