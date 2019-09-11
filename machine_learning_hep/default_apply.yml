@@ -34,13 +34,14 @@ ml_study:
   dolearningcurve: false
   doroc: false
   doroctraintest: false
+  doplotdistr: false
   doimportance: false
   dogridsearch: false
   doboundary: false
   doefficiency: false
   dosignifopt: false
   doscancuts: false
-
+  
 mlapplication:
   data:
     doapply: true

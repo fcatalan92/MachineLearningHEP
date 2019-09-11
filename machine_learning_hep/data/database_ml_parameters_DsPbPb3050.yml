@@ -124,22 +124,14 @@ DsPbPb3050:
       chunksizeskim: [300,300,300,300] #list of periods
       fracmerge : [1.0,1.0,1.0,1.0] #list of periods
       seedmerge: [12,12,12,12] #list of periods
-      period: [LHC19c3b_q, LHC19c3b_r, LHC19d4b_q, LHC19d4b_r] #list of periods
-      unmerged_tree_dir: [/data/DsPbPb/PbPb_MC_3050/05-07-2019/11_20190515-1540/unmerged,
-                          /data/DsPbPb/PbPb_MC_3050/05-07-2019/12_20190515-1024/unmerged,
-                          /data/DsPbPb/PbPb_MC_3050/05-07-2019/15_20190520-1349/unmerged,
+      period: [LHC19d4b_q, LHC19d4b_r] #list of periods
+      unmerged_tree_dir: [/data/DsPbPb/PbPb_MC_3050/05-07-2019/15_20190520-1349/unmerged,
                           /data/DsPbPb/PbPb_MC_3050/05-07-2019/16_20190520-1647/unmerged] # this is pPb MC, #list of periods
-      pkl: [/data/DsPbPb/PbPb_MC_3050/05-07-2019/11_20190515-1540/mcpkl,
-            /data/DsPbPb/PbPb_MC_3050/05-07-2019/12_20190515-1024/mcpkl,
-            /data/DsPbPb/PbPb_MC_3050/05-07-2019/15_20190520-1349/mcpkl,
+      pkl: [/data/DsPbPb/PbPb_MC_3050/05-07-2019/15_20190520-1349/mcpkl,
             /data/DsPbPb/PbPb_MC_3050/05-07-2019/16_20190520-1647/mcpkl] #list of periods
-      pkl_skimmed: [/data/DsPbPb/PbPb_MC_3050/05-07-2019/11_20190515-1540/mcpklsk,
-                    /data/DsPbPb/PbPb_MC_3050/05-07-2019/12_20190515-1024/mcpklsk,
-                    /data/DsPbPb/PbPb_MC_3050/05-07-2019/15_20190520-1349/mcpklsk,
+      pkl_skimmed: [/data/DsPbPb/PbPb_MC_3050/05-07-2019/15_20190520-1349/mcpklsk,
                     /data/DsPbPb/PbPb_MC_3050/05-07-2019/16_20190520-1647/mcpklsk] #list of periods
-      pkl_skimmed_merge_for_ml: [/data/DsPbPb/PbPb_MC_3050/05-07-2019/11_20190515-1540/mcpklskML,
-                                 /data/DsPbPb/PbPb_MC_3050/05-07-2019/12_20190515-1024/mcpklskML,
-                                 /data/DsPbPb/PbPb_MC_3050/05-07-2019/15_20190520-1349/mcpklskML,
+      pkl_skimmed_merge_for_ml: [/data/DsPbPb/PbPb_MC_3050/05-07-2019/15_20190520-1349/mcpklskML,
                                  /data/DsPbPb/PbPb_MC_3050/05-07-2019/16_20190520-1647/mcpklskML] #list of periods
       pkl_skimmed_merge_for_ml_all: /data/DsPbPb/PbPb_MC_3050/05-07-2019/mcpklskMLallperiods
       pkl_evtcounter_all: /data/DsPbPb/PbPb_MC_3050/05-07-2019/mcpklevtallperiods
@@ -223,9 +215,7 @@ DsPbPb3050:
                   /home/fcatalan/test_QM/results3050/LHC18q_3050_8_17_presel] #list of periods
         resultsallp: /home/fcatalan/test_QM/results3050/data_merged
       mc:
-        results: [/home/fcatalan/test_QM/results3050/LHC19c3a_q_010_9_presel,
-                  /home/fcatalan/test_QM/results3050/LHC19c3a_r_010_10_presel,
-                  /home/fcatalan/test_QM/results3050/LHC19d4a_q_010_13_presel, 
+        results: [/home/fcatalan/test_QM/results3050/LHC19d4a_q_010_13_presel, 
                   /home/fcatalan/test_QM/results3050/LHC19d4a_r_010_14_presel] #list of periods
         resultsallp: /home/fcatalan/test_QM/results3050/mc_merged
 
@@ -264,5 +254,5 @@ DsPbPb3050:
       dir: ['',''] #list of periods
       dirmerged: ''
     mc:
-      dir: ['','','',''] #list of periods
+      dir: ['',''] #list of periods
       dirmerged: ''
