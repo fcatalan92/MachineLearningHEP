@@ -22,7 +22,7 @@ import lzma
 import os
 import numpy as np
 import pandas as pd
-import lz4
+import lz4.frame
 from root_numpy import fill_hist # pylint: disable=import-error, no-name-in-module
 from ROOT import TH1F, TH2F  # pylint: disable=import-error, no-name-in-module
 from machine_learning_hep.selectionutils import select_runs

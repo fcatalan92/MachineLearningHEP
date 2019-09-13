@@ -13,32 +13,38 @@
 #############################################################################
 
 import os
+import pickle
+import argparse
 import yaml
-import pandas as pd
-
 from ROOT import TFile, TH1F # pylint: disable=import-error, no-name-in-module
+from machine_learning_hep.utilities import openfile
 from machine_learning_hep.selectionutils import getnormforselevt
 
-# pylint: disable=invalid-name
-case = "Dspp5TeV"
+def main():
+    parser = argparse.ArgumentParser(description='Arguments')
+    parser.add_argument('--case', metavar='text', default='DsPbPb010')
+    case = parser.parse_args().case
+    with open(f"data/database_ml_parameters_{case}.yml", 'r') as param_config:
+        data_param = yaml.load(param_config, yaml.FullLoader)
 
-with open("data/database_ml_parameters.yml", 'r') as param_config:
-    data_param = yaml.load(param_config)
+    namefile_evt = data_param[case]["files_names"]["namefile_evt"]
+    folder = data_param[case]["multi"]["data"]["pkl_evtcounter_all"]
+    path = os.path.join(folder, namefile_evt)
 
-namefile_evt = data_param[case]["files_names"]["namefile_evt_skim_tot"]
-folder = data_param[case]["output_folders"]["pkl_merged"]["mc"]
+    df_evt_all = pickle.load(openfile(path, 'rb'))
+    nselevt = len(df_evt_all.query("is_ev_rej==0"))
+    norm = getnormforselevt(df_evt_all)
+    print(f'Normalisation: {norm:.3e}')
+    print(f'Selected events: {nselevt:.3e}')
 
-df_evt_all = pd.read_pickle(os.path.join(folder, namefile_evt))
+    hNorm = TH1F("hEvForNorm", ";;Normalisation", 2, 0.5, 2.5)
+    hNorm.GetXaxis().SetBinLabel(1, "normsalisation factor")
+    hNorm.GetXaxis().SetBinLabel(2, "selected events")
+    hNorm.SetBinContent(1, norm)
+    hNorm.SetBinContent(2, nselevt)
 
-nselevt = len(df_evt_all.query("is_ev_rej==0"))
-norm = getnormforselevt(df_evt_all)
+    outfile = TFile("Normalisation_%s.root" % case, "recreate")
+    hNorm.Write()
+    outfile.Close()
 
-hNorm = TH1F("hEvForNorm", ";;Normalisation", 2, 0.5, 2.5)
-hNorm.GetXaxis().SetBinLabel(1, "normsalisation factor")
-hNorm.GetXaxis().SetBinLabel(2, "selected events")
-hNorm.SetBinContent(1, norm)
-hNorm.SetBinContent(2, nselevt)
-
-outfile = TFile("Normalisation_%s.root" % case, "recreate")
-hNorm.Write()
-outfile.Close()
+main()
