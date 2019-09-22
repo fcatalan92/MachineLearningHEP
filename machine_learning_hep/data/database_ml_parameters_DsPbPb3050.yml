@@ -42,14 +42,14 @@ DsPbPb3050:
     ismcbkg: [[2],[11]]
     
   variables:
-    var_all: [d_len, d_len_xy, norm_dl_xy, cos_p, cos_p_xy, imp_par_xy, dca, sig_vert, 
-             delta_mass_KK, cos_PiDs, cos_PiKPhi_3, pt_prong0, pt_prong1, pt_prong2, imp_par_prong0, 
-             imp_par_prong1, imp_par_prong2, max_norm_d0d0exp, inv_mass, pt_cand, cand_type, y_cand, 
-             eta_prong0, eta_prong1, eta_prong2, run_number, ev_id, nsigTPC_Pi_0, nsigTPC_K_0, nsigTOF_Pi_0, nsigTOF_K_0, 
-             nsigTPC_Pi_1, nsigTPC_K_1, nsigTOF_Pi_1, nsigTOF_K_1, nsigTPC_Pi_2, nsigTPC_K_2, nsigTOF_Pi_2, nsigTOF_K_2, 
-             nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]    
-    #var_all: [inv_mass, pt_cand, cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3,
-    #          max_norm_d0d0exp, nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]
+    #var_all: [d_len, d_len_xy, norm_dl_xy, cos_p, cos_p_xy, imp_par_xy, dca, sig_vert, 
+    #         delta_mass_KK, cos_PiDs, cos_PiKPhi_3, pt_prong0, pt_prong1, pt_prong2, imp_par_prong0, 
+    #         imp_par_prong1, imp_par_prong2, max_norm_d0d0exp, inv_mass, pt_cand, cand_type, y_cand, 
+    #         eta_prong0, eta_prong1, eta_prong2, run_number, ev_id, nsigTPC_Pi_0, nsigTPC_K_0, nsigTOF_Pi_0, nsigTOF_K_0, 
+    #         nsigTPC_Pi_1, nsigTPC_K_1, nsigTOF_Pi_1, nsigTOF_K_1, nsigTPC_Pi_2, nsigTPC_K_2, nsigTOF_Pi_2, nsigTOF_K_2, 
+    #         nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]    
+    var_all: [inv_mass, pt_cand, cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3,
+              max_norm_d0d0exp, nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]
     var_evt:
       data: [is_ev_rej, run_number, ev_id, centrality, z_vtx_reco]
       mc: [is_ev_rej, run_number, ev_id, centrality, z_vtx_reco, z_vtx_gen]
@@ -123,31 +123,31 @@ DsPbPb3050:
       chunksizeskim: [300,300] #list of periods
       fracmerge : [1.0,1.0] #list of periods
       seedmerge: [12,12] #list of periods
-      #period: [LHC19d4b_r, LHC19d4b_q] #list of periods
-      #unmerged_tree_dir: [/data/DsPbPb/PbPb_MC_3050/vAN-20190905_ROOT6-1/PbPb3050_2018_mc_prodDs/196_20190907-1859/unmerged,
-      #                    /data/DsPbPb/PbPb_MC_3050/vAN-20190905_ROOT6-1/PbPb3050_2018_mc_prodDs/197_20190906-1514/unmerged] #list of periods
-      #pkl: [/data/DsPbPb/PbPb_MC_3050/vAN-20190905_ROOT6-1/PbPb3050_2018_mc_prodDs/196_20190907-1859/pkl,
-      #      /data/DsPbPb/PbPb_MC_3050/vAN-20190905_ROOT6-1/PbPb3050_2018_mc_prodDs/197_20190906-1514/pkl] #list of periods
-      #pkl_skimmed: [/data/DsPbPb/PbPb_MC_3050/vAN-20190905_ROOT6-1/PbPb3050_2018_mc_prodDs/196_20190907-1859/pkl_skimmed,
-      #              /data/DsPbPb/PbPb_MC_3050/vAN-20190905_ROOT6-1/PbPb3050_2018_mc_prodDs/197_20190906-1514/pkl_skimmed] #list of periods
-      #pkl_skimmed_merge_for_ml: [/data/DsPbPb/PbPb_MC_3050/vAN-20190905_ROOT6-1/PbPb3050_2018_mc_prodDs/196_20190907-1859/pkl_ML,
-      #                           /data/DsPbPb/PbPb_MC_3050/vAN-20190905_ROOT6-1/PbPb3050_2018_mc_prodDs/197_20190906-1514/pkl_ML] #list of periods
-      #pkl_skimmed_merge_for_ml_all: /data/DsPbPb/PbPb_MC_3050/pkl_ML_DsDed
-      #pkl_evtcounter_all: /data/DsPbPb/PbPb_MC_3050/pkl_evt_DsDed
-      period: [LHC19c3b_all_q, LHC19c3b_all_r] #list of periods
-      unmerged_tree_dir: [/data/DsPbPb/PbPb_MC_3050/vAN-20190910_ROOT6-1/PbPb3050_2018_mc_prodD2H/223_20190911-1355/unmerged,
-                          /data/DsPbPb/PbPb_MC_3050/vAN-20190910_ROOT6-1/PbPb3050_2018_mc_prodD2H/224_20190911-1356/unmerged]  #list of periods
-      pkl: [/data/DsPbPb/PbPb_MC_3050/vAN-20190910_ROOT6-1/PbPb3050_2018_mc_prodD2H/223_20190911-1355/pkl,
-            /data/DsPbPb/PbPb_MC_3050/vAN-20190910_ROOT6-1/PbPb3050_2018_mc_prodD2H/224_20190911-1356/pkl] #list of periods
-      pkl_skimmed: [/data/DsPbPb/PbPb_MC_3050/vAN-20190910_ROOT6-1/PbPb3050_2018_mc_prodD2H/223_20190911-1355/pkl_skimmed,
-                    /data/DsPbPb/PbPb_MC_3050/vAN-20190910_ROOT6-1/PbPb3050_2018_mc_prodD2H/224_20190911-1356/pkl_skimmed] #list of periods
-      pkl_skimmed_merge_for_ml: [/data/DsPbPb/PbPb_MC_3050/vAN-20190910_ROOT6-1/PbPb3050_2018_mc_prodD2H/223_20190911-1355/pkl_ML,
-                                 /data/DsPbPb/PbPb_MC_3050/vAN-20190910_ROOT6-1/PbPb3050_2018_mc_prodD2H/224_20190911-1356/pkl_ML] #list of periods
-      pkl_skimmed_merge_for_ml_all: /data/DsPbPb/PbPb_MC_3050/pkl_ML_D2Hprod
-      pkl_evtcounter_all: /data/DsPbPb/PbPb_MC_3050/pkl_evt_D2Hprod
+      period: [LHC19d4b_r, LHC19d4b_q] #list of periods
+      unmerged_tree_dir: [/data/DsPbPb/PbPb_MC_3050/vAN-20190905_ROOT6-1/PbPb3050_2018_mc_prodDs/196_20190907-1859/unmerged,
+                          /data/DsPbPb/PbPb_MC_3050/vAN-20190905_ROOT6-1/PbPb3050_2018_mc_prodDs/197_20190906-1514/unmerged] #list of periods
+      pkl: [/data/DsPbPb/PbPb_MC_3050/vAN-20190905_ROOT6-1/PbPb3050_2018_mc_prodDs/196_20190907-1859/pkl,
+            /data/DsPbPb/PbPb_MC_3050/vAN-20190905_ROOT6-1/PbPb3050_2018_mc_prodDs/197_20190906-1514/pkl] #list of periods
+      pkl_skimmed: [/data/DsPbPb/PbPb_MC_3050/vAN-20190905_ROOT6-1/PbPb3050_2018_mc_prodDs/196_20190907-1859/pkl_skimmed,
+                    /data/DsPbPb/PbPb_MC_3050/vAN-20190905_ROOT6-1/PbPb3050_2018_mc_prodDs/197_20190906-1514/pkl_skimmed] #list of periods
+      pkl_skimmed_merge_for_ml: [/data/DsPbPb/PbPb_MC_3050/vAN-20190905_ROOT6-1/PbPb3050_2018_mc_prodDs/196_20190907-1859/pkl_ML,
+                                 /data/DsPbPb/PbPb_MC_3050/vAN-20190905_ROOT6-1/PbPb3050_2018_mc_prodDs/197_20190906-1514/pkl_ML] #list of periods
+      pkl_skimmed_merge_for_ml_all: /data/DsPbPb/PbPb_MC_3050/pkl_ML_DsDed
+      pkl_evtcounter_all: /data/DsPbPb/PbPb_MC_3050/pkl_evt_DsDed
+      #period: [LHC19c3b_all_q, LHC19c3b_all_r] #list of periods
+      #unmerged_tree_dir: [/data/DsPbPb/PbPb_MC_3050/vAN-20190910_ROOT6-1/PbPb3050_2018_mc_prodD2H/223_20190911-1355/unmerged,
+      #                    /data/DsPbPb/PbPb_MC_3050/vAN-20190910_ROOT6-1/PbPb3050_2018_mc_prodD2H/224_20190911-1356/unmerged]  #list of periods
+      #pkl: [/data/DsPbPb/PbPb_MC_3050/vAN-20190910_ROOT6-1/PbPb3050_2018_mc_prodD2H/223_20190911-1355/pkl,
+      #      /data/DsPbPb/PbPb_MC_3050/vAN-20190910_ROOT6-1/PbPb3050_2018_mc_prodD2H/224_20190911-1356/pkl] #list of periods
+      #pkl_skimmed: [/data/DsPbPb/PbPb_MC_3050/vAN-20190910_ROOT6-1/PbPb3050_2018_mc_prodD2H/223_20190911-1355/pkl_skimmed,
+      #              /data/DsPbPb/PbPb_MC_3050/vAN-20190910_ROOT6-1/PbPb3050_2018_mc_prodD2H/224_20190911-1356/pkl_skimmed] #list of periods
+      #pkl_skimmed_merge_for_ml: [/data/DsPbPb/PbPb_MC_3050/vAN-20190910_ROOT6-1/PbPb3050_2018_mc_prodD2H/223_20190911-1355/pkl_ML,
+      #                           /data/DsPbPb/PbPb_MC_3050/vAN-20190910_ROOT6-1/PbPb3050_2018_mc_prodD2H/224_20190911-1356/pkl_ML] #list of periods
+      #pkl_skimmed_merge_for_ml_all: /data/DsPbPb/PbPb_MC_3050/pkl_ML_D2Hprod
+      #pkl_evtcounter_all: /data/DsPbPb/PbPb_MC_3050/pkl_evt_D2Hprod
   ml:
-    nbkg: 5000
-    nsig: 5000
+    nbkg: 100000000
+    nsig: 1000000
     sampletagforsignal: 1
     sampletagforbkg: 0
     sel_sigml: ismcprompt == 1
@@ -160,8 +160,8 @@ DsPbPb3050:
     binmax: [4] #list of nbins
     mltype: BinaryClassification
     ncorescrossval: 24 
-    mlplot: /home/fcatalan/test_QM/mlplot3050 # to be removed
-    mlout: /home/fcatalan/test_QM/mlout3050 # to be removed
+    mlplot: /home/fcatalan/Ds_QM/pt2_4/mlplot3050 # to be removed
+    mlout: /home/fcatalan/Ds_QM/pt2_4/mlout3050 # to be removed
 
     opt:
       filename_fonll: 'data/fonll/fo_pp_d0meson_5TeV_y0p5.csv' # file with FONLL predictions, corrected with Raa for PbPb 'data/fonll/fo_PbPb_d0meson_5TeV_y0p5_wRaa_ds_3050_min.csv'

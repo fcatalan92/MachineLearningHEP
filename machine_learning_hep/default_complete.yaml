@@ -1,4 +1,4 @@
-case: D0pp
+case: DsPbPb3050
 download:
   alice:
     activate: false
@@ -24,11 +24,11 @@ mergingperiods:
     activate: false
 
 ml_study:
-  activate: false
+  activate: true
   dopca: false
   docorrelation: false
   dotraining: true
-  dotesting: false
+  dotesting: true
   doapplytodatamc: false
   docrossvalidation: false
   dolearningcurve: false
@@ -53,16 +53,16 @@ mlapplication:
     domergeapplyperiods: false
 
 analysis:
-  type: MBjetvspt
+  type: MBvspt
   data:
     histomass: false
   mc:
     histomass: false
-    efficiency: true
-    feeddown: true
+    efficiency: false
+    feeddown: false
   dofit: false
   dojetstudies: false
-  doeff: true
+  doeff: false
   docross: false
 
 systematics:
