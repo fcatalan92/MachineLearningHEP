@@ -257,12 +257,13 @@ class Optimiser:
     def do_train(self):
         self.logger.info("Training")
         t0 = time.time()
+        print(self.p_class[0])
         if self.p_earlystop:
             self.logger.info("Using early stopping")
             self.p_class = set_num_trees(self.p_class, self.df_xtrain, self.df_ytrain,
                                          self.p_nkfolds, self.p_num_es_rounds, self.rnd_shuffle)
         self.p_trainedmod = fit(self.p_classname, self.p_class, self.df_xtrain, self.df_ytrain)
-        print(self.p_class[0]) 
+        print(self.p_class[0])
         savemodels(self.p_classname, self.p_trainedmod, self.dirmlout, self.s_suffix)
         self.logger.info("Training over")
         self.logger.info("Time elapsed = %.3f", time.time() - t0)

@@ -123,7 +123,7 @@ def set_num_trees(classifiers_, x_train_, y_train_, nfold_, num_early_stopping_,
         cv_results = xgb.cv(xgb_params, train_data, num_boost_round=num_trees, nfold=nfold_,
                             stratified=True, metrics='auc', seed=seed_,
                             early_stopping_rounds=num_early_stopping_)
-
+        print(cv_results)
         mean_auc = cv_results['test-auc-mean'].max()
         boost_rounds = cv_results['test-auc-mean'].idxmax()
         mean_std = cv_results['test-auc-std'][boost_rounds]
