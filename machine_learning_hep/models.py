@@ -23,9 +23,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
-
+import xgboost as xgb
 from sklearn.feature_extraction import DictVectorizer
-
 from keras.wrappers.scikit_learn import KerasClassifier
 from machine_learning_hep.logger import get_logger
 import machine_learning_hep.templates_keras as templates_keras
@@ -108,9 +107,33 @@ def getclf_keras(model_config, length_input):
             except AttributeError:
                 logger.critical("Could not load keras model %s", c)
 
-    #logger.critical("Some reason")
     return classifiers, names
 
+def set_num_trees(classifiers_, x_train_, y_train_, nfold_, num_early_stopping_, seed_):
+    logger = get_logger()
+    logger.debug("Estimating number of trees")
+    new_models = []
+
+    for clf in classifiers_:
+        params = clf.get_params(deep=True)
+        num_trees = params["n_estimators"]
+        xgb_params = clf.get_xgb_params()
+        train_data = xgb.DMatrix(x_train_, label=y_train_, silent=True, nthread=4)
+
+        cv_results = xgb.cv(xgb_params, train_data, num_boost_round=num_trees, nfold=nfold_,
+                            stratified=True, metrics='auc', seed=seed_,
+                            early_stopping_rounds=num_early_stopping_)
+
+        mean_auc = cv_results['test-auc-mean'].max()
+        boost_rounds = cv_results['test-auc-mean'].idxmax()
+        mean_std = cv_results['test-auc-std'][boost_rounds]
+        logger.debug("ROC_AUC %.5f +/- %.5f for %d rounds", mean_auc, mean_std, boost_rounds)
+
+        params["n_estimators"] = boost_rounds
+        clf.set_params(**params)
+        new_models.append(clf)
+
+    return new_models
 
 
 def fit(names_, classifiers_, x_train_, y_train_):

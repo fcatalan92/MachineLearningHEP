@@ -156,9 +156,11 @@ DsPbPb3050:
     rnd_shuffle: 42
     rnd_splt: 42
     test_frac: 0.2
-    binmin: [2] #list of nbins #list of nbins min
+    binmin: [2] #list of nbins
     binmax: [4] #list of nbins
     mltype: BinaryClassification
+    doearlystopping: True #available for XGBoost only
+    num_early_stopping_rounds: 50 #available for XGBoost only
     ncorescrossval: 24 
     mlplot: /home/fcatalan/Ds_QM/pt2_4/mlplot3050 # to be removed
     mlout: /home/fcatalan/Ds_QM/pt2_4/mlout3050 # to be removed

@@ -35,7 +35,7 @@ from machine_learning_hep.mlperformance import cross_validation_mse, plot_cross_
 from machine_learning_hep.mlperformance import plot_learning_curves, precision_recall
 from machine_learning_hep.mlperformance import roc_train_test, plot_overtraining
 from machine_learning_hep.grid_search import do_gridsearch, read_grid_dict, perform_plot_gridsearch
-from machine_learning_hep.models import importanceplotall
+from machine_learning_hep.models import importanceplotall, set_num_trees
 from machine_learning_hep.logger import get_logger
 from machine_learning_hep.optimization import calc_bkg, calc_signif, calc_eff, calc_sigeff_steps
 from machine_learning_hep.correlations import vardistplot_probscan, efficiency_cutscan
@@ -100,6 +100,8 @@ class Optimiser:
         self.p_binmax = binmax
         self.p_npca = None
         self.p_mltype = data_param["ml"]["mltype"]
+        self.p_earlystop = data_param["ml"]["doearlystopping"]
+        self.p_num_es_rounds = data_param["ml"]["num_early_stopping_rounds"]
         self.p_nkfolds = data_param["ml"]["nkfolds"]
         self.p_ncorescross = data_param["ml"]["ncorescrossval"]
         self.rnd_shuffle = data_param["ml"]["rnd_shuffle"]
@@ -255,7 +257,12 @@ class Optimiser:
     def do_train(self):
         self.logger.info("Training")
         t0 = time.time()
+        if self.p_earlystop:
+            self.logger.info("Using early stopping")
+            self.p_class = set_num_trees(self.p_class, self.df_xtrain, self.df_ytrain,
+                                         self.p_nkfolds, self.p_num_es_rounds, self.rnd_shuffle)
         self.p_trainedmod = fit(self.p_classname, self.p_class, self.df_xtrain, self.df_ytrain)
+        print(self.p_class[0]) 
         savemodels(self.p_classname, self.p_trainedmod, self.dirmlout, self.s_suffix)
         self.logger.info("Training over")
         self.logger.info("Time elapsed = %.3f", time.time() - t0)

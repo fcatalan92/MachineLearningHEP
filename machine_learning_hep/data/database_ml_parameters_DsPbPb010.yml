@@ -159,6 +159,8 @@ DsPbPb010:
     binmin: [12] #list of nbins
     binmax: [50] #list of nbins
     mltype: BinaryClassification
+    doearlystopping: True #available for XGBoost only
+    num_early_stopping_rounds: 50 #available for XGBoost only
     ncorescrossval: 24 
     mlplot: /home/fcatalan/Ds_QM/pt12_50/mlplot010 # to be removed
     mlout: /home/fcatalan/Ds_QM/pt12_50/mlout010 # to be removed
