@@ -30,7 +30,6 @@ from machine_learning_hep.utilities import openfile
 from machine_learning_hep.correlations import vardistplot, scatterplot, correlationmatrix
 from machine_learning_hep.models import getclf_scikit, getclf_xgboost, getclf_keras
 from machine_learning_hep.models import fit, savemodels, test, apply, decisionboundaries
-from machine_learning_hep.root import write_tree
 from machine_learning_hep.mlperformance import cross_validation_mse, plot_cross_validation_mse
 from machine_learning_hep.mlperformance import plot_learning_curves, precision_recall
 from machine_learning_hep.mlperformance import roc_train_test, plot_overtraining
@@ -270,9 +269,7 @@ class Optimiser:
         df_ml_test = test(self.p_mltype, self.p_classname, self.p_trainedmod,
                           self.df_mltest, self.v_train, self.v_sig)
         df_ml_test_to_df = self.dirmlout+"/testsample_%s_mldecision.pkl" % (self.s_suffix)
-        df_ml_test_to_root = self.dirmlout+"/testsample_%s_mldecision.root" % (self.s_suffix)
         pickle.dump(df_ml_test, openfile(df_ml_test_to_df, "wb"), protocol=4)
-        write_tree(df_ml_test_to_root, self.n_treetest, df_ml_test)
 
     def do_apply(self):
         df_data = apply(self.p_mltype, self.p_classname, self.p_trainedmod,
