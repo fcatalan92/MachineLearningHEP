@@ -91,6 +91,7 @@ class Optimiser:
         #parameters
         self.p_case = case
         self.p_typean = typean
+        self.p_use_stdprod = data_param["ml"]["use_stdprod"]
         self.p_nbkg = data_param["ml"]["nbkg"]
         self.p_nsig = data_param["ml"]["nsig"]
         self.p_tagsig = data_param["ml"]["sampletagforsignal"]
@@ -158,7 +159,10 @@ class Optimiser:
                                      self.p_bin_width))
         self.p_mass = data_param["mass"]
         self.p_raahp = raahp
-        self.preparesample()
+        if self.p_use_stdprod:
+            self.prep_sample_wstd(data_param)
+        else:
+            self.preparesample()
         self.loadmodels()
         self.create_suffix()
         self.df_evt_data = None
@@ -228,6 +232,69 @@ class Optimiser:
         self.logger.info("Number of bkg candidates: %d and test %d", len(self.df_bkgtrain),
                          len(self.df_bkgtest))
 
+        self.df_xtrain = self.df_mltrain[self.v_train]
+        self.df_ytrain = self.df_mltrain[self.v_sig]
+        self.df_xtest = self.df_mltest[self.v_train]
+        self.df_ytest = self.df_mltest[self.v_sig]
+
+    def prep_sample_wstd(self, data_param):
+        self.logger.info("Prepare Sample, using std MC production for test")
+        #set path of std production
+        dirmcml_std = data_param["multi"]["mc"]["pkl_skimmed_merge_for_ml_std"]
+        f_gen_mc_std = os.path.join(dirmcml_std, self.n_gen)
+        f_reco_mc_std = os.path.join(dirmcml_std, self.n_reco)
+        #load data
+        self.df_data = pickle.load(openfile(self.f_reco_data, "rb"))
+        df_mc_train = pickle.load(openfile(self.f_reco_mc, "rb"))
+        self.df_mc = pickle.load(openfile(f_reco_mc_std, "rb"))
+        self.df_mcgen = pickle.load(openfile(f_gen_mc_std, "rb"))
+        #apply selections
+        self.df_data = seldf_singlevar(self.df_data, self.v_bin, self.p_binmin, self.p_binmax)
+        df_mc_train = seldf_singlevar(df_mc_train, self.v_bin, self.p_binmin, self.p_binmax)
+        self.df_mc = seldf_singlevar(self.df_mc, self.v_bin, self.p_binmin, self.p_binmax)
+        self.df_mcgen = self.df_mcgen.query(self.p_presel_gen_eff)
+        self.df_mcgen = seldf_singlevar(self.df_mcgen, self.v_bin, self.p_binmin, self.p_binmax)
+
+        #prepare data samples
+        df_sig_train = df_mc_train.query(self.s_selsigml)
+        df_sig_test = self.df_mc.query(self.s_selsigml)
+        df_bkg = self.df_data.query(self.s_selbkgml)
+        df_bkg["ismcsignal"] = 0
+        df_bkg["ismcprompt"] = 0
+        df_bkg["ismcfd"] = 0
+        df_bkg["ismcbkg"] = 0
+
+        if self.p_nsig > len(df_sig_train):
+            self.logger.warning("There are not enough signal events")
+        self.p_nbkg = self.p_nbkg*2
+        if self.p_nbkg > len(df_bkg):
+            self.logger.warning("There are not enough background events")
+        self.p_nsig = min(len(df_sig_train), self.p_nsig)
+        self.p_nbkg = min(len(df_bkg), self.p_nbkg)
+        self.logger.info("Used number of signal events is %d", self.p_nsig)
+        self.logger.info("Used number of background events is %d", self.p_nbkg)
+
+        df_sig_train = shuffle(df_sig_train, random_state=self.rnd_shuffle)
+        df_bkg = shuffle(df_bkg, random_state=self.rnd_shuffle)
+        df_sig_train = df_sig_train[:self.p_nsig]
+        df_bkg = df_bkg[:self.p_nbkg]
+        df_sig_train[self.v_sig] = 1
+        df_sig_test[self.v_sig] = 1
+        df_bkg[self.v_sig] = 0
+
+        self.df_mltrain, self.df_mltest = pd.DataFrame(), pd.DataFrame()
+        self.df_mltrain = pd.concat([df_sig_train, df_bkg[:self.p_nbkg//2]])
+        self.df_mltest = pd.concat([df_sig_test, df_bkg[self.p_nbkg//2:self.p_nbkg]])
+        self.df_mltrain = self.df_mltrain.reset_index(drop=True)
+        self.df_mltest = self.df_mltest.reset_index(drop=True)
+        self.df_sigtrain, self.df_bkgtrain = split_df_sigbkg(self.df_mltrain, self.v_sig)
+        self.df_sigtest, self.df_bkgtest = split_df_sigbkg(self.df_mltest, self.v_sig)
+        self.logger.info("Total number of candidates: train %d and test %d", len(self.df_mltrain),
+                         len(self.df_mltest))
+        self.logger.info("Number of signal candidates: train %d and test %d",
+                         len(self.df_sigtrain), len(self.df_sigtest))
+        self.logger.info("Number of bkg candidates: %d and test %d", len(self.df_bkgtrain),
+                         len(self.df_bkgtest))
         self.df_xtrain = self.df_mltrain[self.v_train]
         self.df_ytrain = self.df_mltrain[self.v_sig]
         self.df_xtest = self.df_mltest[self.v_train]

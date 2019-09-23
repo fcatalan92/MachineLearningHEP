@@ -134,6 +134,7 @@ DsPbPb3050:
                                  /data/DsPbPb/PbPb_MC_3050/vAN-20190905_ROOT6-1/PbPb3050_2018_mc_prodDs/197_20190906-1514/pkl_ML] #list of periods
       pkl_skimmed_merge_for_ml_all: /data/DsPbPb/PbPb_MC_3050/pkl_ML_DsDed
       pkl_evtcounter_all: /data/DsPbPb/PbPb_MC_3050/pkl_evt_DsDed
+      pkl_skimmed_merge_for_ml_std: /data/DsPbPb/PbPb_MC_3050/pkl_ML_D2Hprod
       #period: [LHC19c3b_all_q, LHC19c3b_all_r] #list of periods
       #unmerged_tree_dir: [/data/DsPbPb/PbPb_MC_3050/vAN-20190910_ROOT6-1/PbPb3050_2018_mc_prodD2H/223_20190911-1355/unmerged,
       #                    /data/DsPbPb/PbPb_MC_3050/vAN-20190910_ROOT6-1/PbPb3050_2018_mc_prodD2H/224_20190911-1356/unmerged]  #list of periods
@@ -146,6 +147,7 @@ DsPbPb3050:
       #pkl_skimmed_merge_for_ml_all: /data/DsPbPb/PbPb_MC_3050/pkl_ML_D2Hprod
       #pkl_evtcounter_all: /data/DsPbPb/PbPb_MC_3050/pkl_evt_D2Hprod
   ml:
+    use_stdprod: True #option to use "std" MC in test set
     nbkg: 100000000
     nsig: 1000000
     sampletagforsignal: 1

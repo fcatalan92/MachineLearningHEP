@@ -134,6 +134,7 @@ DsPbPb010:
                                  /data/DsPbPb/PbPb_MC_010/vAN-20190905_ROOT6-1/PbPb010_2018_mc_prodDs/226_20190913-1835/pkl_ML] #list of periods
       pkl_skimmed_merge_for_ml_all: /data/DsPbPb/PbPb_MC_010/pkl_ML_DsDed
       pkl_evtcounter_all: /data/DsPbPb/PbPb_MC_010/pkl_evt_DsDed
+      pkl_skimmed_merge_for_ml_std: /data/DsPbPb/PbPb_MC_010/pkl_ML_D2Hprod
       #period: [LHC19c3a_all_q, LHC19c3a_all_r] #list of periods
       #unmerged_tree_dir: [/data/DsPbPb/PbPb_MC_010/vAN-20190910_ROOT6-1/PbPb010_2018_mc_prodD2H/221_20190911-1606/unmerged,
       #                    /data/DsPbPb/PbPb_MC_010/vAN-20190910_ROOT6-1/PbPb010_2018_mc_prodD2H/222_20190911-1355/unmerged] #list of periods
@@ -146,6 +147,7 @@ DsPbPb010:
       #pkl_skimmed_merge_for_ml_all: /data/DsPbPb/PbPb_MC_010/pkl_ML_D2Hprod
       #pkl_evtcounter_all: /data/DsPbPb/PbPb_MC_010/pkl_evt_D2Hprod
   ml:
+    use_stdprod: True
     nbkg: 1000000
     nsig: 1000000
     sampletagforsignal: 1
