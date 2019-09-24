@@ -22,12 +22,13 @@ import pickle
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MultipleLocator, FormatStrFormatter
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 from ROOT import TH1F, TF1, gROOT  # pylint: disable=import-error,no-name-in-module
 from machine_learning_hep.utilities import seldf_singlevar, split_df_sigbkg, createstringselection
 from machine_learning_hep.utilities import openfile
-from machine_learning_hep.correlations import vardistplot, scatterplot, correlationmatrix
+from machine_learning_hep.correlations import vardistplot, correlationmatrix #scatterplot,
 from machine_learning_hep.models import getclf_scikit, getclf_xgboost, getclf_keras
 from machine_learning_hep.models import fit, savemodels, test, apply, decisionboundaries
 from machine_learning_hep.mlperformance import cross_validation_mse, plot_cross_validation_mse
@@ -188,7 +189,6 @@ class Optimiser:
         self.df_mcgen = seldf_singlevar(self.df_mcgen, self.v_bin, self.p_binmin, self.p_binmax)
         self.df_data = seldf_singlevar(self.df_data, self.v_bin, self.p_binmin, self.p_binmax)
 
-
         self.df_sig, self.df_bkg = arraydf[self.p_tagsig], arraydf[self.p_tagbkg]
         self.df_sig = seldf_singlevar(self.df_sig, self.v_bin, self.p_binmin, self.p_binmax)
         self.df_bkg = seldf_singlevar(self.df_bkg, self.v_bin, self.p_binmin, self.p_binmax)
@@ -198,7 +198,6 @@ class Optimiser:
         self.df_bkg["ismcprompt"] = 0
         self.df_bkg["ismcfd"] = 0
         self.df_bkg["ismcbkg"] = 0
-
 
         if self.p_nsig > len(self.df_sig):
             self.logger.warning("There are not enough signal events")
@@ -301,17 +300,28 @@ class Optimiser:
         self.df_ytest = self.df_mltest[self.v_sig]
 
     def do_corr(self):
-        imageIO_vardist = vardistplot(self.df_sigtrain, self.df_bkgtrain,
+        #remove some outliers
+        query_str = ("d_len < 1.0 and norm_dl_xy < 40 and max_norm_d0d0exp > -20 and "
+                     "max_norm_d0d0exp < 20 and nsigComb_Pi_0 > 0 and nsigComb_Pi_0 < 40 and "
+                     "nsigComb_Pi_1 > 0 and nsigComb_Pi_1 < 40 and nsigComb_Pi_2 > 0 and "
+                     "nsigComb_Pi_2 < 40 and nsigComb_K_0 > 0 and nsigComb_K_0 < 40 and "
+                     "nsigComb_K_1 > 0 and nsigComb_K_1 < 40 and nsigComb_K_2 > 0 and "
+                     "nsigComb_K_2 < 40"
+                    )
+        df_st = self.df_sigtrain.query(query_str)
+        df_bt = self.df_bkgtrain.query(query_str)
+        imageIO_vardist = vardistplot(df_st, df_bt,
                                       self.v_all, self.dirmlplot,
                                       self.p_binmin, self.p_binmax)
-        imageIO_scatterplot = scatterplot(self.df_sigtrain, self.df_bkgtrain,
-                                          self.v_corrx, self.v_corry,
-                                          self.dirmlplot, self.p_binmin, self.p_binmax)
-        imageIO_corr_sig = correlationmatrix(self.df_sigtrain, self.v_all, "Signal",
+        #imageIO_scatterplot = scatterplot(self.df_sigtrain, self.df_bkgtrain,
+        #                                  self.v_corrx, self.v_corry,
+        #                                  self.dirmlplot, self.p_binmin, self.p_binmax)
+        imageIO_corr_sig = correlationmatrix(df_st, self.v_all, "Signal",
                                              self.dirmlplot, self.p_binmin, self.p_binmax)
-        imageIO_corr_bkg = correlationmatrix(self.df_bkgtrain, self.v_all, "Background",
+        imageIO_corr_bkg = correlationmatrix(df_bt, self.v_all, "Background",
                                              self.dirmlplot, self.p_binmin, self.p_binmax)
-        return imageIO_vardist, imageIO_scatterplot, imageIO_corr_sig, imageIO_corr_bkg
+        #return imageIO_vardist, imageIO_scatterplot, imageIO_corr_sig, imageIO_corr_bkg
+        return imageIO_vardist, imageIO_corr_sig, imageIO_corr_bkg
 
     def loadmodels(self):
         classifiers_scikit, names_scikit = getclf_scikit(self.db_model)
@@ -339,6 +349,7 @@ class Optimiser:
         pickle.dump(df_ml_test, openfile(df_ml_test_to_df, "wb"), protocol=4)
 
     def do_apply(self):
+        self.logger.info("Doing application on ML data")
         df_data = apply(self.p_mltype, self.p_classname, self.p_trainedmod,
                         self.df_data, self.v_train)
         df_mc = apply(self.p_mltype, self.p_classname, self.p_trainedmod,
@@ -406,6 +417,15 @@ class Optimiser:
             plt.errorbar(x_axis, eff_array, yerr=eff_err_array, alpha=0.3, label=f'{name}',
                          elinewidth=2.5, linewidth=4.0)
         plt.figure(fig_eff.number)
+        plt.xlim(0.892, 1.0025)
+        axes = fig_eff.get_axes()[0]
+        majorLocatorx = MultipleLocator(0.01)
+        majorFormatterx = FormatStrFormatter('%.2f')
+        minorLocatorx = MultipleLocator(0.002)
+        axes.xaxis.set_major_locator(majorLocatorx)
+        axes.xaxis.set_major_formatter(majorFormatterx)
+        axes.xaxis.set_minor_locator(minorLocatorx)
+        axes.xaxis.set_ticks_position('both')
         plt.legend(loc="lower left", prop={'size': 18})
         plt.savefig(f'{self.dirmlplot}/Efficiency_{self.s_suffix}.png')
         with open(f'{self.dirmlplot}/Efficiency_{self.s_suffix}.pickle', 'wb') as out:
@@ -520,10 +540,19 @@ class Optimiser:
             plt.errorbar(x_axis, signif_array_tot, yerr=signif_err_array_tot, alpha=0.3,
                          label=f'{name}_Tot', elinewidth=2.5, linewidth=4.0)
             plt.figure(fig_signif_pevt.number)
-            plt.legend(loc="lower left", prop={'size': 18})
+            plt.legend(loc="best", prop={'size': 18})
             plt.savefig(f'{self.dirmlplot}/Significance_PerEvent_{self.s_suffix}.png')
             plt.figure(fig_signif.number)
-            plt.legend(loc="lower left", prop={'size': 18})
+            plt.xlim(0.892, 1.0025)
+            axes = fig_signif.get_axes()[0]
+            majorLocatorx = MultipleLocator(0.01)
+            majorFormatterx = FormatStrFormatter('%.2f')
+            minorLocatorx = MultipleLocator(0.002)
+            axes.xaxis.set_major_locator(majorLocatorx)
+            axes.xaxis.set_major_formatter(majorFormatterx)
+            axes.xaxis.set_minor_locator(minorLocatorx)
+            axes.xaxis.set_ticks_position('both')
+            plt.legend(loc="best", prop={'size': 18})
             plt.savefig(f'{self.dirmlplot}/Significance_{self.s_suffix}.png')
             with open(f'{self.dirmlplot}/Significance_{self.s_suffix}.pickle', 'wb') as out:
                 pickle.dump(fig_signif, out)

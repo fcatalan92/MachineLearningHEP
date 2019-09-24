@@ -204,7 +204,7 @@ def readmodels(names_, folder_, suffix_):
 
 
 def importanceplotall(mylistvariables_, names_, trainedmodels_, suffix_, folder):
-    plt.figure(figsize=(25, 15))
+    plt.figure(figsize=(15, 15))
     plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=0.4, hspace=0.2)
 
     i = 1
@@ -226,7 +226,7 @@ def importanceplotall(mylistvariables_, names_, trainedmodels_, suffix_, folder)
         ax1.set_xlabel('Importance', fontsize=17)
         ax1.set_title('Importance features '+name, fontsize=17)
         ax1.xaxis.set_tick_params(labelsize=17)
-        plt.xlim(0, 0.7)
+        #plt.xlim(0, 0.7)
         i += 1
     plt.subplots_adjust(wspace=0.5)
     plotname = folder+'/importanceplotall%s.png' % (suffix_)

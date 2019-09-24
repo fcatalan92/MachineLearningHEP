@@ -283,8 +283,8 @@ def plot_overtraining(names, classifiers, suffix, folder, x_train, y_train, x_va
         plt.errorbar(center, hist, yerr=err, fmt='o', c='b', label='B, test')
         plt.xlabel("Model output", fontsize=15)
         plt.ylabel("Arbitrary units", fontsize=15)
-        plt.legend(loc="best", frameon=False, fontsize=15)
         plt.yscale("log")
+        plt.legend(loc="upper center", frameon=False, fontsize=15)
 
         plot_name = f'{folder}/ModelOutDistr_{name}_{suffix}.png'
         fig.savefig(plot_name)

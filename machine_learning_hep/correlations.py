@@ -38,7 +38,7 @@ def vardistplot(dataframe_sig_, dataframe_bkg_, mylistvariables_, output_,
         plt.hist(dataframe_bkg_[var], facecolor='g', label='background', **kwargs)
         ax.legend()
         i = i+1
-    plotname = output_+'/variablesDistribution%d%d.png' % (binmin, binmax)
+    plotname = f'{output_}/variablesDistribution_{binmin:.1f}_{binmax:.1f}.png'
     plt.savefig(plotname, bbox_inches='tight')
     imagebytesIO = BytesIO()
     plt.savefig(imagebytesIO, format='png')
