@@ -41,17 +41,17 @@ BinaryClassification:
   xgboost:
     xgboost_classifier:
       activate: True
-      max_depth: 3
+      max_depth: 4
       learning_rate: 0.1
-      n_estimators: 850
+      n_estimators: 2000
       objective: 'binary:logistic'
-      n_jobs: 10
+      n_jobs: 8
       gamma: 0.
-      min_child_weight: 3
-      subsample: 0.8
-      colsample_bytree: 0.8 
+      min_child_weight: 2
+      subsample: 1
+      colsample_bytree: 0.9
       colsample_bynode: 1
-      random_state: 0
+      random_state: 42
       tree_method: 'hist'
 
 Regression:
