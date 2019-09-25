@@ -52,7 +52,7 @@ BinaryClassification:
       colsample_bytree: 0.9
       colsample_bynode: 1
       random_state: 42
-      tree_method: 'hist'
+      tree_method: 'approx'
 
 Regression:
 
