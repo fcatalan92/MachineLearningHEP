@@ -41,7 +41,7 @@ BinaryClassification:
   xgboost:
     xgboost_classifier:
       activate: True
-      max_depth: 4
+      max_depth: 5 #4 below 6 GeV/c
       learning_rate: 0.1
       n_estimators: 2000
       objective: 'binary:logistic'
