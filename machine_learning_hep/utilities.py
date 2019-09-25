@@ -195,3 +195,8 @@ def z_calc(pt_1, phi_1, eta_1, pt_2, phi_2, eta_2):
     numerator = px_1*px_2+py_1*py_2+pz_1*pz_2
     denominator = px_1*px_1+py_1*py_1+pz_1*pz_1
     return numerator/denominator
+
+def apply_abs(data_, columns_):
+    for column in columns_:
+        data_[column] = data_[column].abs()
+    return data_

@@ -26,20 +26,20 @@ mergingperiods:
 ml_study:
   activate: true
   dopca: false
-  docorrelation: false
+  docorrelation: true
   dotraining: true
   dotesting: true
-  doapplytodatamc: false
+  doapplytodatamc: true
   docrossvalidation: false
   dolearningcurve: false
   doroc: false
-  doroctraintest: false
-  doplotdistr: false
-  doimportance: false
+  doroctraintest: true
+  doplotdistr: true
+  doimportance: true
   dogridsearch: false
   doboundary: false
-  doefficiency: false
-  dosignifopt: false
+  doefficiency: true
+  dosignifopt: true
   doscancuts: false
 
 mlapplication:

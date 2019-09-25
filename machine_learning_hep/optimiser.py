@@ -27,7 +27,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 from ROOT import TH1F, TF1, gROOT  # pylint: disable=import-error,no-name-in-module
 from machine_learning_hep.utilities import seldf_singlevar, split_df_sigbkg, createstringselection
-from machine_learning_hep.utilities import openfile
+from machine_learning_hep.utilities import openfile, apply_abs
 from machine_learning_hep.correlations import vardistplot, correlationmatrix #scatterplot,
 from machine_learning_hep.models import getclf_scikit, getclf_xgboost, getclf_keras
 from machine_learning_hep.models import fit, savemodels, test, apply, decisionboundaries
@@ -184,10 +184,16 @@ class Optimiser:
         self.df_mc = pickle.load(openfile(self.f_reco_mc, "rb"))
         self.df_mcgen = pickle.load(openfile(self.f_gen_mc, "rb"))
         self.df_mcgen = self.df_mcgen.query(self.p_presel_gen_eff)
-        arraydf = [self.df_data, self.df_mc]
         self.df_mc = seldf_singlevar(self.df_mc, self.v_bin, self.p_binmin, self.p_binmax)
         self.df_mcgen = seldf_singlevar(self.df_mcgen, self.v_bin, self.p_binmin, self.p_binmax)
         self.df_data = seldf_singlevar(self.df_data, self.v_bin, self.p_binmin, self.p_binmax)
+
+        #fix for PID variables
+        columns_to_abs = ["nsigComb_Pi_0", "nsigComb_Pi_1", "nsigComb_Pi_2", "nsigComb_K_0",
+                          "nsigComb_K_1", "nsigComb_K_2"]
+        self.df_mc = apply_abs(self.df_mc, columns_to_abs)
+        self.df_data = apply_abs(self.df_data, columns_to_abs)
+        arraydf = [self.df_data, self.df_mc]
 
         self.df_sig, self.df_bkg = arraydf[self.p_tagsig], arraydf[self.p_tagbkg]
         self.df_sig = seldf_singlevar(self.df_sig, self.v_bin, self.p_binmin, self.p_binmax)
@@ -253,6 +259,12 @@ class Optimiser:
         self.df_mc = seldf_singlevar(self.df_mc, self.v_bin, self.p_binmin, self.p_binmax)
         self.df_mcgen = self.df_mcgen.query(self.p_presel_gen_eff)
         self.df_mcgen = seldf_singlevar(self.df_mcgen, self.v_bin, self.p_binmin, self.p_binmax)
+        #fix for PID variables
+        columns_to_abs = ["nsigComb_Pi_0", "nsigComb_Pi_1", "nsigComb_Pi_2", "nsigComb_K_0",
+                          "nsigComb_K_1", "nsigComb_K_2"]
+        df_mc_train = apply_abs(df_mc_train, columns_to_abs)
+        self.df_mc = apply_abs(self.df_mc, columns_to_abs)
+        self.df_data = apply_abs(self.df_data, columns_to_abs)
 
         #prepare data samples
         df_sig_train = df_mc_train.query(self.s_selsigml)
@@ -302,10 +314,10 @@ class Optimiser:
     def do_corr(self):
         #remove some outliers
         query_str = ("d_len < 1.0 and norm_dl_xy < 40 and max_norm_d0d0exp > -20 and "
-                     "max_norm_d0d0exp < 20 and nsigComb_Pi_0 > 0 and nsigComb_Pi_0 < 40 and "
-                     "nsigComb_Pi_1 > 0 and nsigComb_Pi_1 < 40 and nsigComb_Pi_2 > 0 and "
-                     "nsigComb_Pi_2 < 40 and nsigComb_K_0 > 0 and nsigComb_K_0 < 40 and "
-                     "nsigComb_K_1 > 0 and nsigComb_K_1 < 40 and nsigComb_K_2 > 0 and "
+                     "max_norm_d0d0exp < 20 and nsigComb_Pi_0 > -10 and nsigComb_Pi_0 < 40 and "
+                     "nsigComb_Pi_1 > -10 and nsigComb_Pi_1 < 40 and nsigComb_Pi_2 > -10 and "
+                     "nsigComb_Pi_2 < 40 and nsigComb_K_0 > -10 and nsigComb_K_0 < 40 and "
+                     "nsigComb_K_1 > -10 and nsigComb_K_1 < 40 and nsigComb_K_2 > -10 and "
                      "nsigComb_K_2 < 40"
                     )
         df_st = self.df_sigtrain.query(query_str)
