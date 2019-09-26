@@ -20,10 +20,10 @@ DsPbPb010:
   sel_cen_unp: "centrality >= 0 and centrality <= 10" # for data
   #sel_cen_unp: null # for MC
   sel_good_evt_unp: "is_ev_rej == 0"
-  sel_reco_skim: ["delta_mass_KK < 0.02","delta_mass_KK < 0.02","delta_mass_KK < 0.02","delta_mass_KK < 0.02"]
-  sel_gen_skim: [null,null,null,null]
-  sel_skim_binmin: [2,4,6,12] #list of nbins min
-  sel_skim_binmax: [4,6,12,50] #list of nbins max
+  sel_reco_skim: ["delta_mass_KK < 0.02"]
+  sel_gen_skim: [null]
+  sel_skim_binmin: [12] #list of nbins min
+  sel_skim_binmax: [50] #list of nbins max
   var_binning: pt_cand
   dofullevtmerge: true
   
@@ -42,14 +42,14 @@ DsPbPb010:
     ismcbkg: [[2],[11]]
     
   variables:
-    #var_all: [d_len, d_len_xy, norm_dl_xy, cos_p, cos_p_xy, imp_par_xy, dca, sig_vert, 
-    #         delta_mass_KK, cos_PiDs, cos_PiKPhi_3, pt_prong0, pt_prong1, pt_prong2, imp_par_prong0, 
-    #         imp_par_prong1, imp_par_prong2, max_norm_d0d0exp, inv_mass, pt_cand, cand_type, y_cand, 
-    #         eta_prong0, eta_prong1, eta_prong2, run_number, ev_id, nsigTPC_Pi_0, nsigTPC_K_0, nsigTOF_Pi_0, nsigTOF_K_0, 
-    #         nsigTPC_Pi_1, nsigTPC_K_1, nsigTOF_Pi_1, nsigTOF_K_1, nsigTPC_Pi_2, nsigTPC_K_2, nsigTOF_Pi_2, nsigTOF_K_2, 
-    #         nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]    
-    var_all: [inv_mass, pt_cand, cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3,
-              max_norm_d0d0exp, nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]
+    var_all: [d_len, d_len_xy, norm_dl_xy, cos_p, cos_p_xy, imp_par_xy, dca, sig_vert, 
+             delta_mass_KK, cos_PiDs, cos_PiKPhi_3, pt_prong0, pt_prong1, pt_prong2, imp_par_prong0, 
+             imp_par_prong1, imp_par_prong2, max_norm_d0d0exp, inv_mass, pt_cand, cand_type, y_cand, 
+             eta_prong0, eta_prong1, eta_prong2, run_number, ev_id, nsigTPC_Pi_0, nsigTPC_K_0, nsigTOF_Pi_0, nsigTOF_K_0, 
+             nsigTPC_Pi_1, nsigTPC_K_1, nsigTOF_Pi_1, nsigTOF_K_1, nsigTPC_Pi_2, nsigTPC_K_2, nsigTOF_Pi_2, nsigTOF_K_2, 
+             nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]    
+    #var_all: [inv_mass, pt_cand, cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3,
+    #          max_norm_d0d0exp, nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]
     #var_all: [inv_mass, pt_cand, cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3, max_norm_d0d0exp, 
     #          nsigTPC_Pi_0, nsigTPC_Pi_1, nsigTPC_Pi_2, nsigTPC_K_0, nsigTPC_K_1, nsigTPC_K_2,
     #          nsigTOF_Pi_0, nsigTOF_Pi_1, nsigTOF_Pi_2, nsigTOF_K_0, nsigTOF_K_1, nsigTOF_K_2]
@@ -58,8 +58,8 @@ DsPbPb010:
       mc: [is_ev_rej, run_number, ev_id, centrality, z_vtx_reco, z_vtx_gen]
     var_gen: [y_cand, pt_cand, cand_type, run_number, ev_id]
     var_evt_match: [run_number, ev_id]
-    var_training: [cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3, max_norm_d0d0exp,
-                   nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]
+    var_training: [cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3,
+                   max_norm_d0d0exp, nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]
     #var_training: [cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3, max_norm_d0d0exp, 
     #               nsigTPC_Pi_0, nsigTPC_Pi_1, nsigTPC_Pi_2, nsigTPC_K_0, nsigTPC_K_1, nsigTPC_K_2,
     #               nsigTOF_Pi_0, nsigTOF_Pi_1, nsigTOF_Pi_2, nsigTOF_K_0, nsigTOF_K_1, nsigTOF_K_2]
@@ -86,9 +86,9 @@ DsPbPb010:
   files_names:
     namefile_unmerged_tree: AnalysisResults.root
     namefile_reco: AnalysisResultsReco.pkl
-    namefile_evt: AnalysisResultsEvt.pkl #AnalysisResultsEvt_pt12_50.pkl
+    namefile_evt: AnalysisResultsEvt_pt12_50.pkl
     namefile_evtvalroot: AnalysisResultsEvtVal.root
-    namefile_evtorig: AnalysisResultsEvtOrig.pkl #AnalysisResultsEvtOrig_pt12_50.pkl
+    namefile_evtorig: AnalysisResultsEvtOrig_pt12_50.pkl
     namefile_gen: AnalysisResultsGen.pkl
     namefile_reco_applieddata: AnalysisResultsRecoAppliedData.pkl
     namefile_reco_appliedmc: AnalysisResultsRecoAppliedMC.pkl
@@ -104,21 +104,21 @@ DsPbPb010:
   multi:
     data:
       nperiods: 2
-      nprocessesparallel: 40
+      nprocessesparallel: 28
       maxfiles : [-1,-1] #list of periods
-      chunksizeunp : [300,300] #list of periods
-      chunksizeskim: [300,300] #list of periods
+      chunksizeunp : [500,500] #list of periods
+      chunksizeskim: [500,500] #list of periods
       fracmerge : [1.,1.] #list of periods
       seedmerge: [12,12] #list of periods
       period: [LHC18q, LHC18r] #list of periods
-      unmerged_tree_dir: [/data/DsPbPb/PbPb_data_010/vAN-20190905_ROOT6-1/PbPb_2018_data/188_20190906-0928/unmerged,
-                          /data/DsPbPb/PbPb_data_010/vAN-20190905_ROOT6-1/PbPb_2018_data/189_20190906-0928/unmerged] #list of periods
-      pkl: [/data/DsPbPb/PbPb_data_010/vAN-20190905_ROOT6-1/PbPb_2018_data/188_20190906-0928/pkl,
-            /data/DsPbPb/PbPb_data_010/vAN-20190905_ROOT6-1/PbPb_2018_data/189_20190906-0928/pkl] #list of periods
-      pkl_skimmed: [/data/DsPbPb/PbPb_data_010/vAN-20190905_ROOT6-1/PbPb_2018_data/188_20190906-0928/pkl_skimmed,
-                    /data/DsPbPb/PbPb_data_010/vAN-20190905_ROOT6-1/PbPb_2018_data/189_20190906-0928/pkl_skimmed] #list of periods
-      pkl_skimmed_merge_for_ml: [/data/DsPbPb/PbPb_data_010/vAN-20190905_ROOT6-1/PbPb_2018_data/188_20190906-0928/pkl_ML,
-                                 /data/DsPbPb/PbPb_data_010/vAN-20190905_ROOT6-1/PbPb_2018_data/189_20190906-0928/pkl_ML] #list of periods
+      unmerged_tree_dir: [/data/DsPbPb/PbPb_data_010/vAN-20190923_ROOT6-1/PbPb_2018_data/249_20190924-1654/unmerged,
+                          /data/DsPbPb/PbPb_data_010/vAN-20190923_ROOT6-1/PbPb_2018_data/250_20190924-1700/unmerged] #list of periods
+      pkl: [/data/DsPbPb/PbPb_data_010/vAN-20190923_ROOT6-1/PbPb_2018_data/249_20190924-1654/pkl,
+            /data/DsPbPb/PbPb_data_010/vAN-20190923_ROOT6-1/PbPb_2018_data/250_20190924-1700/pkl] #list of periods
+      pkl_skimmed: [/data/DsPbPb/PbPb_data_010/vAN-20190923_ROOT6-1/PbPb_2018_data/249_20190924-1654/pkl_skimmed,
+                    /data/DsPbPb/PbPb_data_010/vAN-20190923_ROOT6-1/PbPb_2018_data/250_20190924-1700/pkl_skimmed] #list of periods
+      pkl_skimmed_merge_for_ml: [/data/DsPbPb/PbPb_data_010/vAN-20190923_ROOT6-1/PbPb_2018_data/249_20190924-1654/pkl_ML,
+                                 /data/DsPbPb/PbPb_data_010/vAN-20190923_ROOT6-1/PbPb_2018_data/250_20190924-1700/pkl_ML] #list of periods
       pkl_skimmed_merge_for_ml_all: /data/DsPbPb/PbPb_data_010/pkl_ML_all
       pkl_evtcounter_all: /data/DsPbPb/PbPb_data_010/pkl_evt_all
     mc:
@@ -196,11 +196,11 @@ DsPbPb010:
       pkl_skimmed_dec: ['',''] #list of periods
       pkl_skimmed_decmerged: ['',''] #list of periods
     modelname: xgboost
-    modelsperptbin: ['','','','']
+    modelsperptbin: ['']
     probcutpresel: 
-      data: [0.,0.,0.,0.] #list of nbins
-      mc: [0.,0.,0.,0.] #list of nbins
-    probcutoptimal: [0.,0.,0.,0.] #list of nbins
+      data: [0.] #list of nbins
+      mc: [0.] #list of nbins
+    probcutoptimal: [0.] #list of nbins
 
   analysis:
     MBvspt:
