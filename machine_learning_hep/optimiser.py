@@ -320,6 +320,13 @@ class Optimiser:
                      "nsigComb_K_1 > -10 and nsigComb_K_1 < 40 and nsigComb_K_2 > -10 and "
                      "nsigComb_K_2 < 40"
                     )
+        #query_str = ("d_len < 1.0 and norm_dl_xy < 40 and max_norm_d0d0exp > -20 and "
+        #             "max_norm_d0d0exp < 20 and nsigTPC_Pi_0 > -10 and nsigTPC_Pi_0 < 40 and "
+        #             "nsigTPC_Pi_1 > -10 and nsigTPC_Pi_1 < 40 and nsigTPC_Pi_2 > -10 and "
+        #             "nsigTPC_Pi_2 < 40 and nsigTPC_K_0 > -10 and nsigTPC_K_0 < 40 and "
+        #             "nsigTPC_K_1 > -10 and nsigTPC_K_1 < 40 and nsigTPC_K_2 > -10 and "
+        #             "nsigTPC_K_2 < 40"
+        #            )
         df_st = self.df_sigtrain.query(query_str)
         df_bt = self.df_bkgtrain.query(query_str)
         imageIO_vardist = vardistplot(df_st, df_bt,

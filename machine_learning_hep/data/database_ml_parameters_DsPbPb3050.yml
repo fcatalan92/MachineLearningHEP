@@ -17,8 +17,8 @@ DsPbPb3050:
   sel_reco_unp: null
   sel_reco_singletrac_unp : [[8],[]]
   sel_gen_unp: "abs(y_cand) < 0.5 and abs(z_vtx_gen) < 10" # pre-selections on generated candidates
-  #sel_cen_unp: "centrality >=30 and centrality <=50" # for data
-  sel_cen_unp: null # for MC
+  sel_cen_unp: "centrality >=30 and centrality <=50" # for data
+  #sel_cen_unp: null # for MC
   sel_good_evt_unp: "is_ev_rej == 0"
   sel_reco_skim: ["delta_mass_KK < 0.02","delta_mass_KK < 0.02","delta_mass_KK < 0.02","delta_mass_KK < 0.02"]
   sel_gen_skim: [null,null,null,null]
@@ -48,15 +48,23 @@ DsPbPb3050:
     #         eta_prong0, eta_prong1, eta_prong2, run_number, ev_id, nsigTPC_Pi_0, nsigTPC_K_0, nsigTOF_Pi_0, nsigTOF_K_0, 
     #         nsigTPC_Pi_1, nsigTPC_K_1, nsigTOF_Pi_1, nsigTOF_K_1, nsigTPC_Pi_2, nsigTPC_K_2, nsigTOF_Pi_2, nsigTOF_K_2, 
     #         nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]    
-    var_all: [inv_mass, pt_cand, cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3,
-              max_norm_d0d0exp, nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]
+    var_all: [inv_mass, pt_cand, cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3, max_norm_d0d0exp, 
+              nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]
+    #var_all: [inv_mass, pt_cand, cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3, max_norm_d0d0exp, 
+    #          nsigTPC_Pi_0, nsigTPC_Pi_1, nsigTPC_Pi_2, nsigTPC_K_0, nsigTPC_K_1, nsigTPC_K_2]
+    #var_all: [inv_mass, pt_cand, cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3, max_norm_d0d0exp, 
+    #          nsigTPC_Pi_0, nsigTPC_Pi_1, nsigTPC_Pi_2, nsigTPC_K_0, nsigTPC_K_1, nsigTPC_K_2,
+    #          nsigTOF_Pi_0, nsigTOF_Pi_1, nsigTOF_Pi_2, nsigTOF_K_0, nsigTOF_K_1, nsigTOF_K_2]
     var_evt:
       data: [is_ev_rej, run_number, ev_id, centrality, z_vtx_reco]
       mc: [is_ev_rej, run_number, ev_id, centrality, z_vtx_reco, z_vtx_gen]
     var_gen: [y_cand, pt_cand, cand_type, run_number, ev_id]
     var_evt_match: [run_number, ev_id]
-    var_training: [cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3,
-                   max_norm_d0d0exp, nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]
+    var_training: [cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3, max_norm_d0d0exp,
+                   nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]
+    #var_training: [cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3, max_norm_d0d0exp, 
+    #               nsigTPC_Pi_0, nsigTPC_Pi_1, nsigTPC_Pi_2, nsigTPC_K_0, nsigTPC_K_1, nsigTPC_K_2,
+    #               nsigTOF_Pi_0, nsigTOF_Pi_1, nsigTOF_Pi_2, nsigTOF_K_0, nsigTOF_K_1, nsigTOF_K_2]
     var_boundaries: [d_len, max_norm_d0d0exp]
     var_correlation:
       - [pt_cand]
