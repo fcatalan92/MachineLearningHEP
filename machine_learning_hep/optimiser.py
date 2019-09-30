@@ -149,6 +149,7 @@ class Optimiser:
         self.p_taa = data_param["ml"]["opt"]["Taa"]
         self.p_br = data_param["ml"]["opt"]["BR"]
         self.p_fprompt = data_param["ml"]["opt"]["f_prompt"]
+        self.p_evt_sub = data_param["ml"]["opt"]["evt_sub"]
         self.p_bkgfracopt = data_param["ml"]["opt"]["bkg_data_fraction"]
         self.p_nstepsign = data_param["ml"]["opt"]["num_steps"]
         self.p_bkg_func = data_param["ml"]["opt"]["bkg_function"]
@@ -433,6 +434,7 @@ class Optimiser:
         df_test = df_test.query('ismcprompt == 1')
 
         for pt_min, pt_max in zip(self.p_minpt_opt, self.p_maxpt_opt):
+            self.logger.debug("Pt range considered: %.1f - %.1f", pt_min, pt_max)
             df_sig = df_test.query(f'pt_cand >= {pt_min} and pt_cand < {pt_max}')
             fig_eff = plt.figure(figsize=(20, 15))
             plt.xlabel('Threshold', fontsize=20)
@@ -466,126 +468,132 @@ class Optimiser:
         self.logger.info("Doing significance optimization")
         gROOT.SetBatch(True)
         gROOT.ProcessLine("gErrorIgnoreLevel = kWarning;")
-        #first extract the number of data events in the ml sample
+
+        #load test set
+        test_file = f'{self.dirmlout}/testsample_{self.s_suffix}_mldecision.pkl'
+        df_test = pickle.load(openfile(test_file, "rb"))
+        df_test = df_test.query('ismcprompt == 1')
+        #load data
+        df_data = pickle.load(openfile(self.f_reco_applieddata, "rb"))
+        df_data = df_data.query(self.s_selbkgml)
+        #prepare MC
+        df_mcgen = self.df_mcgen.query('ismcprompt == 1')
+        df_mc = self.df_mc.query('ismcprompt == 1')
+
+        #extract the number of data events in the ml sample and the total number of events
         self.df_evt_data = pickle.load(openfile(self.f_evt_data, 'rb'))
         if self.p_dofullevtmerge is True:
             self.df_evttotsample_data = pickle.load(openfile(self.f_evttotsample_data, 'rb'))
         else:
             self.logger.warning("The total merged event dataframe was not merged for space limits")
             self.df_evttotsample_data = pickle.load(openfile(self.f_evt_data, 'rb'))
-        #and the total number of events
-        self.p_nevttot = len(self.df_evttotsample_data)
+        self.p_nevttot = len(self.df_evttotsample_data) * self.p_evt_sub
         self.p_nevtml = len(self.df_evt_data)
         self.logger.debug("Number of data events used for ML: %d", self.p_nevtml)
         self.logger.debug("Total number of data events: %d", self.p_nevttot)
-        #calculate acceptance correction. we use in this case all
-        #the signal from the mc sample, without limiting to the n. signal
-        #events used for training
-        denacc = len(self.df_mcgen[self.df_mcgen["ismcprompt"] == 1])
-        numacc = len(self.df_mc[self.df_mc["ismcprompt"] == 1])
-        acc, acc_err = calc_eff(numacc, denacc)
-        self.logger.debug("Acceptance: %.3e +/- %.3e", acc, acc_err)
-        #calculation of the expected fonll signals
-        df_fonll = pd.read_csv(self.f_fonll)
-        ptmin = self.p_binmin
-        ptmax = self.p_binmax
-        df_fonll_in_pt = df_fonll.query('(pt >= @ptmin) and (pt < @ptmax)')[self.p_fonllband]
-        prod_cross = df_fonll_in_pt.sum() * self.p_fragf * 1e-12 / len(df_fonll_in_pt)
-        delta_pt = ptmax - ptmin
-        signal_yield = 2. * prod_cross * delta_pt * self.p_br * acc * self.p_taa \
-                       / (self.p_sigmamb * self.p_fprompt)
-        self.logger.debug("Expected signal yield: %.3e", signal_yield)
-        signal_yield = self.p_raahp * signal_yield
-        self.logger.debug("Expected signal yield x RAA hp: %.3e", signal_yield)
 
-        #now we plot the fonll expectation
-        plt.figure(figsize=(20, 15))
-        plt.subplot(111)
-        plt.plot(df_fonll['pt'], df_fonll[self.p_fonllband] * self.p_fragf, linewidth=4.0)
-        plt.xlabel('P_t [GeV/c]', fontsize=20)
-        plt.ylabel('Cross Section [pb/GeV]', fontsize=20)
-        plt.title("FONLL cross section " + self.p_case, fontsize=20)
-        plt.semilogy()
-        plt.savefig(f'{self.dirmlplot}/FONLL_curve_{self.s_suffix}.png')
+        for pt_min, pt_max in zip(self.p_minpt_opt, self.p_maxpt_opt):
+            self.logger.debug("Pt range considered: %.1f - %.1f", pt_min, pt_max)
+            df_mcgen_pt = df_mcgen.query(f'pt_cand >= {pt_min} and pt_cand < {pt_max}')
+            df_mc_pt = df_mc.query(f'pt_cand >= {pt_min} and pt_cand < {pt_max}')
+            #calculate acceptance correction. we use in this case all the signal
+            #from the mc sample, without limiting to the n. signal events used for training
+            denacc = len(df_mcgen_pt)
+            numacc = len(df_mc_pt)
+            acc, acc_err = calc_eff(numacc, denacc)
+            self.logger.debug("Acceptance: %.3e +/- %.3e", acc, acc_err)
+            #calculation of the expected fonll signals
+            df_fonll = pd.read_csv(self.f_fonll)
+            df_fonll_in_pt = df_fonll.query('(pt >= @pt_min) and (pt < @pt_max)')[self.p_fonllband]
+            prod_cross = df_fonll_in_pt.sum() * self.p_fragf * 1e-12 / len(df_fonll_in_pt)
+            delta_pt = pt_max - pt_min
+            signal_yield = 2. * prod_cross * delta_pt * self.p_br * acc * self.p_taa \
+                        / (self.p_sigmamb * self.p_fprompt)
+            self.logger.debug("Expected signal yield: %.3e", signal_yield)
+            signal_yield = self.p_raahp * signal_yield
+            self.logger.debug("Expected signal yield x RAA hp: %.3e", signal_yield)
+            #estimate signal region
+            hmass = TH1F('hmass', '', self.p_num_bins, self.p_mass_fit_lim[0],
+                         self.p_mass_fit_lim[1])
+            mass_array = df_mc_pt['inv_mass'].values
+            for mass_value in np.nditer(mass_array):
+                hmass.Fill(mass_value)
+            gaus_fit = TF1("gaus_fit", "gaus", self.p_mass_fit_lim[0], self.p_mass_fit_lim[1])
+            gaus_fit.SetParameters(0, hmass.Integral())
+            gaus_fit.SetParameters(1, self.p_mass)
+            gaus_fit.SetParameters(2, 0.02)
+            self.logger.debug("To fit the signal a gaussian function is used")
+            fitsucc = hmass.Fit("gaus_fit", "RQ")
+            if int(fitsucc) != 0:
+                self.logger.warning("Problem in signal peak fit")
+                sigma = 0.
+            sigma = gaus_fit.GetParameter(2)
+            self.logger.debug("Mean of the gaussian: %.3e", gaus_fit.GetParameter(1))
+            self.logger.debug("Sigma of the gaussian: %.3e", sigma)
+            sig_region = [self.p_mass - 3 * sigma, self.p_mass + 3 * sigma]
+            #initialize figures
+            fig_signif_pevt = plt.figure(figsize=(20, 15))
+            plt.xlabel('Threshold', fontsize=20)
+            plt.ylabel(r'Significance Per Event ($3 \sigma$)', fontsize=20)
+            plt.title(f"Significance Per Event vs Threshold pt{pt_min}_{pt_max}", fontsize=20)
+            fig_signif = plt.figure(figsize=(20, 15))
+            plt.xlabel('Threshold', fontsize=20)
+            plt.ylabel(r'Significance ($3 \sigma$)', fontsize=20)
+            plt.title(f"Significance vs Threshold pt{pt_min}_{pt_max}", fontsize=20)
+            #prepare data for cut scan
+            df_sig = df_test.query(f'pt_cand >= {pt_min} and pt_cand < {pt_max}')
+            df_data_sideband = df_data.query(f'pt_cand >= {pt_min} and pt_cand < {pt_max}')
+            df_data_sideband = shuffle(df_data_sideband, random_state=self.rnd_shuffle)
+            num_bkg_cand = round(len(df_data_sideband) * self.p_bkgfracopt)
+            df_data_sideband = df_data_sideband.tail(num_bkg_cand)
 
-        df_data_sideband = self.df_data.query(self.s_selbkgml)
-        df_data_sideband = shuffle(df_data_sideband, random_state=self.rnd_shuffle)
-        df_data_sideband = df_data_sideband.tail(round(len(df_data_sideband) * self.p_bkgfracopt))
-        hmass = TH1F('hmass', '', self.p_num_bins, self.p_mass_fit_lim[0], self.p_mass_fit_lim[1])
-        df_mc_signal = self.df_mc[self.df_mc["ismcsignal"] == 1]
-        mass_array = df_mc_signal['inv_mass'].values
-        for mass_value in np.nditer(mass_array):
-            hmass.Fill(mass_value)
-
-        gaus_fit = TF1("gaus_fit", "gaus", self.p_mass_fit_lim[0], self.p_mass_fit_lim[1])
-        gaus_fit.SetParameters(0, hmass.Integral())
-        gaus_fit.SetParameters(1, self.p_mass)
-        gaus_fit.SetParameters(2, 0.02)
-        self.logger.debug("To fit the signal a gaussian function is used")
-        fitsucc = hmass.Fit("gaus_fit", "RQ")
-
-        if int(fitsucc) != 0:
-            self.logger.warning("Problem in signal peak fit")
-            sigma = 0.
-
-        sigma = gaus_fit.GetParameter(2)
-        self.logger.debug("Mean of the gaussian: %.3e", gaus_fit.GetParameter(1))
-        self.logger.debug("Sigma of the gaussian: %.3e", sigma)
-        sig_region = [self.p_mass - 3 * sigma, self.p_mass + 3 * sigma]
-        fig_signif_pevt = plt.figure(figsize=(20, 15))
-        plt.xlabel('Threshold', fontsize=20)
-        plt.ylabel(r'Significance Per Event ($3 \sigma$)', fontsize=20)
-        plt.title("Significance Per Event vs Threshold", fontsize=20)
-        fig_signif = plt.figure(figsize=(20, 15))
-        plt.xlabel('Threshold', fontsize=20)
-        plt.ylabel(r'Significance ($3 \sigma$)', fontsize=20)
-        plt.title("Significance vs Threshold", fontsize=20)
-
-        df_sig = self.df_mltest[self.df_mltest["ismcprompt"] == 1]
-
-        for name in self.p_classname:
-            eff_array, eff_err_array, x_axis = calc_sigeff_steps(self.p_nstepsign, df_sig, name)
-            bkg_array, bkg_err_array, _ = calc_bkg(df_data_sideband, name, self.p_nstepsign,
-                                                   self.p_mass_fit_lim, self.p_bkg_func,
-                                                   self.p_bin_width, sig_region, self.p_savefit,
-                                                   self.dirmlplot)
-            sig_array = [eff * signal_yield for eff in eff_array]
-            sig_err_array = [eff_err * signal_yield for eff_err in eff_err_array]
-            bkg_array = [bkg / (self.p_bkgfracopt * self.p_nevtml) for bkg in bkg_array]
-            bkg_err_array = [bkg_err / (self.p_bkgfracopt * self.p_nevtml) \
-                             for bkg_err in bkg_err_array]
-            signif_array, signif_err_array = calc_signif(sig_array, sig_err_array, bkg_array,
-                                                         bkg_err_array)
-            plt.figure(fig_signif_pevt.number)
-            plt.errorbar(x_axis, signif_array, yerr=signif_err_array, alpha=0.3, label=f'{name}',
-                         elinewidth=2.5, linewidth=4.0)
-            signif_array_ml = [sig * sqrt(self.p_nevtml) for sig in signif_array]
-            signif_err_array_ml = [sig_err * sqrt(self.p_nevtml) for sig_err in signif_err_array]
-            plt.figure(fig_signif.number)
-            plt.errorbar(x_axis, signif_array_ml, yerr=signif_err_array_ml, alpha=0.3,
-                         label=f'{name}_ML_dataset', elinewidth=2.5, linewidth=4.0)
-            signif_array_tot = [sig * sqrt(self.p_nevttot) for sig in signif_array]
-            signif_err_array_tot = [sig_err * sqrt(self.p_nevttot) for sig_err in signif_err_array]
-            plt.figure(fig_signif.number)
-            plt.errorbar(x_axis, signif_array_tot, yerr=signif_err_array_tot, alpha=0.3,
-                         label=f'{name}_Tot', elinewidth=2.5, linewidth=4.0)
-            plt.figure(fig_signif_pevt.number)
-            plt.legend(loc="best", prop={'size': 18})
-            plt.savefig(f'{self.dirmlplot}/Significance_PerEvent_{self.s_suffix}.png')
-            plt.figure(fig_signif.number)
-            plt.xlim(0.892, 1.0025)
-            axes = fig_signif.get_axes()[0]
-            majorLocatorx = MultipleLocator(0.01)
-            majorFormatterx = FormatStrFormatter('%.2f')
-            minorLocatorx = MultipleLocator(0.002)
-            axes.xaxis.set_major_locator(majorLocatorx)
-            axes.xaxis.set_major_formatter(majorFormatterx)
-            axes.xaxis.set_minor_locator(minorLocatorx)
-            axes.xaxis.set_ticks_position('both')
-            plt.legend(loc="best", prop={'size': 18})
-            plt.savefig(f'{self.dirmlplot}/Significance_{self.s_suffix}.png')
-            with open(f'{self.dirmlplot}/Significance_{self.s_suffix}.pickle', 'wb') as out:
-                pickle.dump(fig_signif, out)
+            for name in self.p_classname:
+                eff_array, eff_err_array, x_axis = calc_sigeff_steps(self.p_nstepsign, df_sig, name)
+                bkg_array, bkg_err_array, _ = calc_bkg(df_data_sideband, name, self.p_nstepsign,
+                                                       self.p_mass_fit_lim, self.p_bkg_func,
+                                                       self.p_bin_width, sig_region, self.p_savefit,
+                                                       self.dirmlplot, [pt_min, pt_max])
+                sig_array = [eff * signal_yield for eff in eff_array]
+                sig_err_array = [eff_err * signal_yield for eff_err in eff_err_array]
+                bkg_array = [bkg / (self.p_bkgfracopt * self.p_nevtml) for bkg in bkg_array]
+                bkg_err_array = [bkg_err / (self.p_bkgfracopt * self.p_nevtml) \
+                                for bkg_err in bkg_err_array]
+                signif_array, signif_err_array = calc_signif(sig_array, sig_err_array, bkg_array,
+                                                             bkg_err_array)
+                plt.figure(fig_signif_pevt.number)
+                plt.errorbar(x_axis, signif_array, yerr=signif_err_array, alpha=0.3,
+                             label=f'{name}', elinewidth=2.5, linewidth=4.0)
+                signif_array_ml = [sig * sqrt(self.p_nevtml) for sig in signif_array]
+                signif_err_array_ml = [sig_err * sqrt(self.p_nevtml) for sig_err \
+                                       in signif_err_array]
+                plt.figure(fig_signif.number)
+                plt.errorbar(x_axis, signif_array_ml, yerr=signif_err_array_ml, alpha=0.3,
+                             label=f'{name}_ML_dataset', elinewidth=2.5, linewidth=4.0)
+                signif_array_tot = [sig * sqrt(self.p_nevttot) for sig in signif_array]
+                signif_err_array_tot = [sig_err * sqrt(self.p_nevttot) for sig_err \
+                                        in signif_err_array]
+                plt.figure(fig_signif.number)
+                plt.errorbar(x_axis, signif_array_tot, yerr=signif_err_array_tot, alpha=0.3,
+                             label=f'{name}_Tot', elinewidth=2.5, linewidth=4.0)
+                plt.figure(fig_signif_pevt.number)
+                plt.legend(loc="best", prop={'size': 18})
+                plt.savefig(f'{self.dirmlplot}/Signif_PerEvt_pt{pt_min:.1f}_{pt_max:.1f}.png')
+                plt.figure(fig_signif.number)
+                plt.xlim(0.892, 1.0025)
+                axes = fig_signif.get_axes()[0]
+                majorLocatorx = MultipleLocator(0.01)
+                majorFormatterx = FormatStrFormatter('%.2f')
+                minorLocatorx = MultipleLocator(0.002)
+                axes.xaxis.set_major_locator(majorLocatorx)
+                axes.xaxis.set_major_formatter(majorFormatterx)
+                axes.xaxis.set_minor_locator(minorLocatorx)
+                axes.xaxis.set_ticks_position('both')
+                plt.legend(loc="best", prop={'size': 18})
+                out_name = f'{self.dirmlplot}/Signif_pt{pt_min:.1f}_{pt_max:.1f}.png'
+                plt.savefig(out_name)
+                out_name = out_name.replace("png", "pickle")
+                with open(out_name, 'wb') as out:
+                    pickle.dump(fig_signif, out)
 
     def do_scancuts(self):
         self.logger.info("Scanning cuts")

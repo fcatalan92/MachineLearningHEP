@@ -20,16 +20,16 @@ from ROOT import TH1F, TFile  # pylint: disable=import-error,no-name-in-module
 from machine_learning_hep.logger import get_logger
 
 def calc_bkg(df_bkg, name, num_steps, fit_region, bkg_func, bin_width, sig_region, save_fit,
-             out_dir):
+             out_dir, pt_lims):
     """
     Estimate the number of background candidates under the signal peak. This is obtained
     from real data with a fit of the sidebands of the invariant mass distribution.
     """
     logger = get_logger()
-    ns_left = int(num_steps / 10) - 1
-    ns_right = num_steps - ns_left
-    x_axis_left = np.linspace(0., 0.49, ns_left)
-    x_axis_right = np.linspace(0.5, 1.0, ns_right)
+    ns_left = int(num_steps / 10)
+    ns_right = num_steps + 1
+    x_axis_left = np.linspace(0., 0.8, ns_left, endpoint=False)
+    x_axis_right = np.linspace(0.8, 1.0, ns_right)
     x_axis = np.concatenate((x_axis_left, x_axis_right))
     bkg_array = []
     bkg_err_array = []
@@ -39,7 +39,9 @@ def calc_bkg(df_bkg, name, num_steps, fit_region, bkg_func, bin_width, sig_regio
 
     if save_fit:
         logger.debug("Saving bkg fits to file")
-        out_file = TFile(f'{out_dir}/bkg_fits_{name}.root', 'recreate')
+        pt_min = pt_lims[0]
+        pt_max = pt_lims[1]
+        out_file = TFile(f'{out_dir}/bkg_fits_{name}_pt{pt_min:.1f}_{pt_max:.1f}.root', 'recreate')
         out_file.cd()
 
     logger.debug("To fit the bkg a %s function is used", bkg_func)
