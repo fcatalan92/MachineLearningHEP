@@ -166,16 +166,18 @@ DsPbPb3050:
     rnd_shuffle: 42
     rnd_splt: 42
     test_frac: 0.2
-    binmin: [4] #list of nbins
-    binmax: [6] #list of nbins
+    binmin: [2] #list of nbins
+    binmax: [4] #list of nbins
     mltype: BinaryClassification
     doearlystopping: True #available for XGBoost only
     num_early_stopping_rounds: 50 #available for XGBoost only
     ncorescrossval: 24 
-    mlplot: /home/fcatalan/Ds_QM/pt4_6/mlplot3050 # to be removed
-    mlout: /home/fcatalan/Ds_QM/pt4_6/mlout3050 # to be removed
+    mlplot: /home/fcatalan/Ds_QM/pt2_4/mlplot3050 # to be removed
+    mlout: /home/fcatalan/Ds_QM/pt2_4/mlout3050 # to be removed
 
     opt:
+      ptmin: [2, 3] # to perform the efficiency and sig. opt in finer pt bins w.r.t. the training
+      ptmax: [3, 4]
       filename_fonll: 'data/fonll/fo_pp_d0meson_5TeV_y0p5.csv' # file with FONLL predictions, corrected with Raa for PbPb 'data/fonll/fo_PbPb_d0meson_5TeV_y0p5_wRaa_ds_3050_min.csv'
       fonll_pred: 'max' # edge of the FONLL prediction
       FF: 0.092 # fragmentation fraction #0.1281 
@@ -183,8 +185,9 @@ DsPbPb3050:
       Taa: 3917 # 23260 [b^-1] in 0-10% Pb-Pb, 3917 [b^-1] in 30-50% Pb-Pb, 1 for pp
       BR: 2.27e-2 # branching ratio of the decay
       f_prompt: 0.9 # estimated fraction of prompt candidates
+      evt_sub: 200 # event subsampling factor [1, inf)
       bkg_data_fraction: 0.9 # fraction of real data used in the estimation
-      num_steps: 551 # number of steps used in efficiency and signif. estimation 
+      num_steps: 400 # number of steps used in efficiency and signif. estimation 
       bkg_function: expo # fit function for bkg (among TH1 predefined fit functions, e.g. expo, pol1, pol2, ...)
       save_fit: True # save bkg fits with the various cuts on ML output
       raahp: [1] #list of nbins

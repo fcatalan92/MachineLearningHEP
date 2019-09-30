@@ -182,7 +182,7 @@ DsPbPb010:
       BR: 2.27e-2 # branching ratio of the decay
       f_prompt: 0.9 # estimated fraction of prompt candidates
       bkg_data_fraction: 0.8 # fraction of real data used in the estimation
-      num_steps: 511 # number of steps used in efficiency and signif. estimation 
+      num_steps: 400 # number of steps used in efficiency and signif. estimation 
       bkg_function: expo # fit function for bkg (among TH1 predefined fit functions, e.g. expo, pol1, pol2, ...)
       save_fit: True # save bkg fits with the various cuts on ML output
       raahp: [1] #list of nbins

@@ -140,6 +140,8 @@ class Optimiser:
         self.c_gridconfig = grid_config
 
         #significance
+        self.p_minpt_opt = data_param["ml"]["opt"]["ptmin"]
+        self.p_maxpt_opt = data_param["ml"]["opt"]["ptmax"]
         self.f_fonll = data_param["ml"]["opt"]["filename_fonll"]
         self.p_fonllband = data_param["ml"]["opt"]["fonll_pred"]
         self.p_fragf = data_param["ml"]["opt"]["FF"]
@@ -425,30 +427,39 @@ class Optimiser:
 
     def do_efficiency(self):
         self.logger.info("Doing efficiency estimation")
-        fig_eff = plt.figure(figsize=(20, 15))
-        plt.xlabel('Threshold', fontsize=20)
-        plt.ylabel('Model Efficiency', fontsize=20)
-        plt.title("Efficiency vs Threshold", fontsize=20)
-        df_sig = self.df_mltest[self.df_mltest["ismcprompt"] == 1]
-        for name in self.p_classname:
-            eff_array, eff_err_array, x_axis = calc_sigeff_steps(self.p_nstepsign, df_sig, name)
+        #load test set
+        test_file = f'{self.dirmlout}/testsample_{self.s_suffix}_mldecision.pkl'
+        df_test = pickle.load(openfile(test_file, "rb"))
+        df_test = df_test.query('ismcprompt == 1')
+
+        for pt_min, pt_max in zip(self.p_minpt_opt, self.p_maxpt_opt):
+            df_sig = df_test.query(f'pt_cand >= {pt_min} and pt_cand < {pt_max}')
+            fig_eff = plt.figure(figsize=(20, 15))
+            plt.xlabel('Threshold', fontsize=20)
+            plt.ylabel('Model Efficiency', fontsize=20)
+            plt.title(f"Efficiency vs Threshold pt{pt_min}_{pt_max}", fontsize=20)
+            for name in self.p_classname:
+                eff_array, eff_err_array, x_axis = calc_sigeff_steps(self.p_nstepsign,
+                                                                     df_sig, name)
+                plt.figure(fig_eff.number)
+                plt.errorbar(x_axis, eff_array, yerr=eff_err_array, alpha=0.3, label=f'{name}',
+                             elinewidth=2.5, linewidth=4.0)
             plt.figure(fig_eff.number)
-            plt.errorbar(x_axis, eff_array, yerr=eff_err_array, alpha=0.3, label=f'{name}',
-                         elinewidth=2.5, linewidth=4.0)
-        plt.figure(fig_eff.number)
-        plt.xlim(0.892, 1.0025)
-        axes = fig_eff.get_axes()[0]
-        majorLocatorx = MultipleLocator(0.01)
-        majorFormatterx = FormatStrFormatter('%.2f')
-        minorLocatorx = MultipleLocator(0.002)
-        axes.xaxis.set_major_locator(majorLocatorx)
-        axes.xaxis.set_major_formatter(majorFormatterx)
-        axes.xaxis.set_minor_locator(minorLocatorx)
-        axes.xaxis.set_ticks_position('both')
-        plt.legend(loc="lower left", prop={'size': 18})
-        plt.savefig(f'{self.dirmlplot}/Efficiency_{self.s_suffix}.png')
-        with open(f'{self.dirmlplot}/Efficiency_{self.s_suffix}.pickle', 'wb') as out:
-            pickle.dump(fig_eff, out)
+            plt.xlim(0.892, 1.0025)
+            axes = fig_eff.get_axes()[0]
+            majorLocatorx = MultipleLocator(0.01)
+            majorFormatterx = FormatStrFormatter('%.2f')
+            minorLocatorx = MultipleLocator(0.002)
+            axes.xaxis.set_major_locator(majorLocatorx)
+            axes.xaxis.set_major_formatter(majorFormatterx)
+            axes.xaxis.set_minor_locator(minorLocatorx)
+            axes.xaxis.set_ticks_position('both')
+            plt.legend(loc="lower left", prop={'size': 18})
+            out_name = f'{self.dirmlplot}/EfficiencyVsCut_pt{pt_min:.1f}_{pt_max:.1f}.png'
+            plt.savefig(out_name)
+            out_name = out_name.replace("png", "pickle")
+            with open(out_name, 'wb') as out:
+                pickle.dump(fig_eff, out)
 
     # pylint: disable=too-many-locals
     def do_significance(self):

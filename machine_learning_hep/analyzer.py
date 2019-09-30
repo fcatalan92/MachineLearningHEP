@@ -102,7 +102,6 @@ class Analyzer:
         self.ptranges.append(self.lpt_finbinmax[-1])
         self.var2ranges = self.lvar2_binmin.copy()
         self.var2ranges.append(self.lvar2_binmax[-1])
-        print(self.var2ranges)
         self.lmult_yieldshisto = [TH1F("hyields%d" % (imult), "", \
             self.p_nptbins, array("d", self.ptranges)) for imult in range(self.p_nbin2)]
 
