@@ -96,24 +96,30 @@ def checkdirlist(dirlist):
     for _, mydir in enumerate(dirlist):
         if os.path.exists(mydir):
             print("rm -rf ", mydir)
-            exfolders = exfolders - 1
+            #exfolders = exfolders - 1
     return exfolders
 
 def checkdir(mydir):
     exfolders = 0
     if os.path.exists(mydir):
         print("rm -rf ", mydir)
-        exfolders = -1
+        #exfolders = -1
     return exfolders
 
 def checkmakedirlist(dirlist):
     for _, mydir in enumerate(dirlist):
-        print("creating folder ", mydir)
-        os.makedirs(mydir)
+        if os.path.exists(mydir):
+            print(f"Folder {mydir} already exists")
+        else:
+            print("Creating folder ", mydir)
+            os.makedirs(mydir)
 
 def checkmakedir(mydir):
-    print("creating folder ", mydir)
-    os.makedirs(mydir)
+    if os.path.exists(mydir):
+        print(f"Folder {mydir} already exists")
+    else:
+        print("Creating folder ", mydir)
+        os.makedirs(mydir)
 
 def appendfiletolist(mylist, namefile):
     return [os.path.join(path, namefile) for path in mylist]
