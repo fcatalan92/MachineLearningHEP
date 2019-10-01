@@ -572,9 +572,16 @@ class Optimiser:
                 signif_array_tot = [sig * sqrt(self.p_nevttot) for sig in signif_array]
                 signif_err_array_tot = [sig_err * sqrt(self.p_nevttot) for sig_err \
                                         in signif_err_array]
+                max_signif = max(signif_array_tot)
+                max_index = signif_array_tot.index(max_signif)
+                max_signif_err = signif_err_array_tot[max_index]
+                cut_value = x_axis[max_index]
                 plt.figure(fig_signif.number)
+                label = (f'{name}_Tot - max Signif: {max_signif:.1f} +/- {max_signif_err:.1f} '
+                         f'for cut value {cut_value}'
+                        )
                 plt.errorbar(x_axis, signif_array_tot, yerr=signif_err_array_tot, alpha=0.3,
-                             label=f'{name}_Tot', elinewidth=2.5, linewidth=4.0)
+                             label=label, elinewidth=2.5, linewidth=4.0)
                 plt.figure(fig_signif_pevt.number)
                 plt.legend(loc="best", prop={'size': 18})
                 plt.savefig(f'{self.dirmlplot}/Signif_PerEvt_pt{pt_min:.1f}_{pt_max:.1f}.png')
