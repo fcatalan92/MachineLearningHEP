@@ -206,3 +206,17 @@ def apply_abs(data_, columns_):
     for column in columns_:
         data_[column] = data_[column].abs()
     return data_
+
+def tight_presel(data_):
+    mask = (data_["pt_cand"] > 5.) | ((data_["pt_cand"] <= 5.) & (data_["d_len"] >= 0.05) \
+            & (data_["cos_p"] >= 0.97) & (data_["delta_mass_KK"] <= 0.010) \
+            & (data_["norm_dl_xy"] >= 5.))
+    data_ = data_[mask]
+    return data_
+
+def medium_presel(data_):
+    mask = (data_["pt_cand"] > 5.) | ((data_["pt_cand"] <= 5.) & (data_["d_len"] >= 0.03) \
+            & (data_["cos_p"] >= 0.97) & (data_["delta_mass_KK"] <= 0.010) \
+            & (data_["norm_dl_xy"] >= 4.))
+    data_ = data_[mask]
+    return data_
