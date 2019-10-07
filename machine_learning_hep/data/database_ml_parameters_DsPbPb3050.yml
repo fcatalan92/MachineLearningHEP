@@ -48,7 +48,9 @@ DsPbPb3050:
     #         eta_prong0, eta_prong1, eta_prong2, run_number, ev_id, nsigTPC_Pi_0, nsigTPC_K_0, nsigTOF_Pi_0, nsigTOF_K_0, 
     #         nsigTPC_Pi_1, nsigTPC_K_1, nsigTOF_Pi_1, nsigTOF_K_1, nsigTPC_Pi_2, nsigTPC_K_2, nsigTOF_Pi_2, nsigTOF_K_2, 
     #         nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]    
-    var_all: [inv_mass, pt_cand, cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3, max_norm_d0d0exp, 
+    #var_all: [inv_mass, pt_cand, cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3,
+    #          max_norm_d0d0exp, pt_prong0, pt_prong1, pt_prong2] 
+    var_all: [inv_mass, pt_cand, cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3, max_norm_d0d0exp,
               nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]
     #var_all: [inv_mass, pt_cand, cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3, max_norm_d0d0exp, 
     #          nsigTPC_Pi_0, nsigTPC_Pi_1, nsigTPC_Pi_2, nsigTPC_K_0, nsigTPC_K_1, nsigTPC_K_2]
@@ -60,6 +62,7 @@ DsPbPb3050:
       mc: [is_ev_rej, run_number, ev_id, centrality, z_vtx_reco, z_vtx_gen]
     var_gen: [y_cand, pt_cand, cand_type, run_number, ev_id]
     var_evt_match: [run_number, ev_id]
+    #var_training: [cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3, max_norm_d0d0exp]
     var_training: [cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3, max_norm_d0d0exp,
                    nsigComb_Pi_0, nsigComb_Pi_1, nsigComb_Pi_2, nsigComb_K_0, nsigComb_K_1, nsigComb_K_2]
     #var_training: [cos_p_xy, d_len, norm_dl_xy, sig_vert, delta_mass_KK, cos_PiKPhi_3, max_norm_d0d0exp, 
@@ -167,17 +170,17 @@ DsPbPb3050:
     rnd_splt: 42
     test_frac: 0.2
     binmin: [2] #list of nbins
-    binmax: [4] #list of nbins
+    binmax: [3] #list of nbins
     mltype: BinaryClassification
     doearlystopping: True #available for XGBoost only
     num_early_stopping_rounds: 50 #available for XGBoost only
     ncorescrossval: 24 
-    mlplot: /home/fcatalan/Ds_QM/pt2_4/mlplot3050 # to be removed
-    mlout: /home/fcatalan/Ds_QM/pt2_4/mlout3050 # to be removed
+    mlplot: /home/fcatalan/Ds_QM/pt2_3/mlplot3050 # to be removed
+    mlout: /home/fcatalan/Ds_QM/pt2_3/mlout3050 # to be removed
 
     opt:
-      ptmin: [2, 3] # to perform the efficiency and sig. opt in finer pt bins w.r.t. the training
-      ptmax: [3, 4]
+      ptmin: [2] # to perform the efficiency and sig. opt in finer pt bins w.r.t. the training
+      ptmax: [3]
       #filename_fonll: 'data/fonll/fo_PbPb_d0meson_5TeV_y0p5_wRaa_ds_3050_min.csv'
       filename_fonll: 'data/fonll/fo_pp_d0meson_5TeV_y0p5.csv' # file with FONLL predictions, corrected with Raa for PbPb 'data/fonll/fo_PbPb_d0meson_5TeV_y0p5_wRaa_ds_3050_min.csv'
       fonll_pred: 'max' # edge of the FONLL prediction
