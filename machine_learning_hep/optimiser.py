@@ -27,7 +27,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 from ROOT import TH1F, TF1, gROOT  # pylint: disable=import-error,no-name-in-module
 from machine_learning_hep.utilities import seldf_singlevar, split_df_sigbkg, createstringselection
-from machine_learning_hep.utilities import openfile, apply_abs
+from machine_learning_hep.utilities import openfile, apply_abs, tight_presel, medium_presel
 from machine_learning_hep.correlations import vardistplot, correlationmatrix #scatterplot,
 from machine_learning_hep.models import getclf_scikit, getclf_xgboost, getclf_keras
 from machine_learning_hep.models import fit, savemodels, test, apply, decisionboundaries
@@ -59,10 +59,10 @@ class Optimiser:
         self.dirmlplot = data_param["ml"]["mlplot"]
         #ml file names
         self.n_reco = data_param["files_names"]["namefile_reco"]
-        self.n_reco = self.n_reco.replace(".pkl", "_%s%d_%d.pkl" % (self.v_bin, binmin, binmax))
+        self.n_reco = self.n_reco.replace(".pkl", "_%s%d_%d.pkl" % (self.v_bin, 2, 4))
         self.n_evt = data_param["files_names"]["namefile_evt"]
         self.n_gen = data_param["files_names"]["namefile_gen"]
-        self.n_gen = self.n_gen.replace(".pkl", "_%s%d_%d.pkl" % (self.v_bin, binmin, binmax))
+        self.n_gen = self.n_gen.replace(".pkl", "_%s%d_%d.pkl" % (self.v_bin, 2, 4))
         self.n_treetest = data_param["files_names"]["treeoutput"]
         self.n_reco_applieddata = data_param["files_names"]["namefile_reco_applieddata"]
         self.n_reco_appliedmc = data_param["files_names"]["namefile_reco_appliedmc"]
@@ -196,6 +196,17 @@ class Optimiser:
                           "nsigComb_K_1", "nsigComb_K_2"]
         self.df_mc = apply_abs(self.df_mc, columns_to_abs)
         self.df_data = apply_abs(self.df_data, columns_to_abs)
+        #fix for pt in MC 0-10%
+        query_str_pt = "pt_prong0 > 0.6 and pt_prong1 > 0.6 and pt_prong2 > 0.6"
+        self.df_mc = self.df_mc.query(query_str_pt)
+        #change pre-selections TIGHT
+        if False:
+            self.df_mc = tight_presel(self.df_mc)
+            self.df_data = tight_presel(self.df_data)
+        else:
+        #change pre-selections MEDIUM
+            self.df_mc = medium_presel(self.df_mc)
+            self.df_data = medium_presel(self.df_data)
         arraydf = [self.df_data, self.df_mc]
 
         self.df_sig, self.df_bkg = arraydf[self.p_tagsig], arraydf[self.p_tagbkg]
@@ -268,6 +279,20 @@ class Optimiser:
         df_mc_train = apply_abs(df_mc_train, columns_to_abs)
         self.df_mc = apply_abs(self.df_mc, columns_to_abs)
         self.df_data = apply_abs(self.df_data, columns_to_abs)
+        #fix for pt in MC 0-10%
+        query_str_pt = "pt_prong0 > 0.6 and pt_prong1 > 0.6 and pt_prong2 > 0.6"
+        df_mc_train = df_mc_train.query(query_str_pt)
+        self.df_mc = self.df_mc.query(query_str_pt)
+        #change pre-selections TIGHT
+        if False:
+            df_mc_train = tight_presel(df_mc_train)
+            self.df_mc = tight_presel(self.df_mc)
+            self.df_data = tight_presel(self.df_data)
+        else:
+        #change pre-selections MEDIUM
+            df_mc_train = medium_presel(df_mc_train)
+            self.df_mc = medium_presel(self.df_mc)
+            self.df_data = medium_presel(self.df_data)
 
         #prepare data samples
         df_sig_train = df_mc_train.query(self.s_selsigml)
