@@ -441,6 +441,13 @@ elif [ "$dataset" == "LHC14j5_new" ]; then
   ispp=0
   datasetwithchilds=0
   dataset_short="ITS2_14j5new"
+elif [ "$dataset" == "LHC18r_pass1_296849" ]; then
+  #Data: PbPb 5 TeV 2018, single run for test
+  inputpaths=(/alice/data/2018/LHC18r/000296849/pass1/PWGHF/D2H_PbPb)
+  isMC=0
+  ispp=0
+  datasetwithchilds=0
+  dataset_short="PbPb_2018_data_testrun"
 else
   printf "\e[1;31mError: Dataset not yet implemented. Returning...\e[0m\n\n"
   exit
